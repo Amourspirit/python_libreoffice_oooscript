@@ -1,11 +1,12 @@
 # coding: utf-8
-
+from pathlib import Path
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from dotenv import dotenv_values
 from ..res import __res_path__
+from ..utils import paths
 
-
+_APP_CFG = None
 @dataclass
 class AppConfig:
 
@@ -21,7 +22,7 @@ class AppConfig:
     """
     Path Like structure to resources dir
     """
-    app_res_blank_odt: List[str]
+    app_res_blank_odt: str
     """
     Path Like structure to resources dir.
     
@@ -46,11 +47,12 @@ class AppConfig:
 
 
 def _get_default_config() -> Dict[str, Any]:
+    res_dir = Path(paths.get_pkg_root(), "res")
     config = {
         "lo_script_dir": "~/.config/libreoffice/4/user",
         "app_build_dir": "build_script",
-        "app_res_dir": __res_path__,
-        "app_res_blank_odt": ["odt", "blank.odt"],
+        "app_res_dir": str(res_dir),
+        "app_res_blank_odt": str(Path(res_dir, "docs", "blank.odt")),
         "xml_manifest_namesapce": "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
         "build_remove_modules": ["uno", "scriptforge", "access2base"],
         "build_include_paths": ["."],
@@ -82,3 +84,13 @@ def read_config_default() -> AppConfig:
         AppConfig: Configuration Object
     """
     return read_config(config_name=".env")
+
+
+def get_app_cfg() -> AppConfig:
+    """
+    Get App Config. config is cached
+    """
+    global _APP_CFG
+    if _APP_CFG is None:
+        _APP_CFG = read_config_default()
+    return _APP_CFG

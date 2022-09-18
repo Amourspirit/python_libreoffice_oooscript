@@ -1,6 +1,7 @@
 # coding: utf-8
 from pathlib import Path
-from ..utils import util
+from ..utils import paths
+from ..cfg import config
 
 
 def get_build_path() -> Path:
@@ -10,10 +11,10 @@ def get_build_path() -> Path:
     Returns:
         Path: build directory path
     """
-    config = util.get_app_cfg()
-    build_dir = util.get_path(config.app_build_dir)
+    cfg = config.get_app_cfg()
+    build_dir = paths.get_path(cfg.app_build_dir)
     if build_dir.is_absolute():
         return build_dir
 
-    root = Path(util.get_root())
+    root = Path(paths.get_root())
     return root / build_dir

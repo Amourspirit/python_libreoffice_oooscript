@@ -1,16 +1,16 @@
 # coding: utf-8
+from __future__ import annotations
 import os
 import sys
 import shutil
 import __main__
 from pathlib import Path
-from typing import List, Union, overload
-from ..cfg import config
+from typing import Iterator, List, Union, overload
 from dotenv.main import find_dotenv
 
 _APP_ROOT = None
 _OS_PATH_SET = False
-_APP_CFG = None
+_PKG_ROOT = None
 
 
 def get_uno_path() -> Path:
@@ -154,14 +154,85 @@ def set_os_root_path() -> None:
     _OS_PATH_SET = True
 
 
-def get_app_cfg() -> config.AppConfig:
+def _walk_to_root(path: str) -> Iterator[str]:
     """
-    Get App Config. config is cached
+    Yield directories starting from the given directory up to the root
     """
-    global _APP_CFG
-    if _APP_CFG is None:
-        _APP_CFG = config.read_config_default()
-    return _APP_CFG
+    if not os.path.exists(path):
+        raise IOError("Starting path not found")
+
+    if os.path.isfile(path):
+        path = os.path.dirname(path)
+
+    last_dir = None
+    current_dir = os.path.abspath(path)
+    while last_dir != current_dir:
+        yield current_dir
+        parent_dir = os.path.abspath(os.path.join(current_dir, os.path.pardir))
+        last_dir, current_dir = current_dir, parent_dir
+
+
+def find_higher_file(
+    filename: str = ".oooscript_root",
+    raise_error_if_not_found: bool = False,
+    usecwd: bool = False,
+) -> Path | None:
+    """
+    Search in increasingly higher folders for the given file
+
+    Returns path to the file if found, or None otherwise
+    """
+
+    def _is_interactive():
+        """Decide whether this is running in a REPL or IPython notebook"""
+        main = __import__("__main__", None, None, fromlist=["__file__"])
+        return not hasattr(main, "__file__")
+
+    if usecwd or _is_interactive() or getattr(sys, "frozen", False):
+        # Should work without __file__, e.g. in REPL or IPython notebook.
+        path = os.getcwd()
+    else:
+        # will work for .py files
+        frame = sys._getframe()
+        current_file = __file__
+
+        while frame.f_code.co_filename == current_file:
+            assert frame.f_back is not None
+            frame = frame.f_back
+        frame_filename = frame.f_code.co_filename
+        path = os.path.dirname(os.path.abspath(frame_filename))
+
+    for dirname in _walk_to_root(path):
+        check_path = os.path.join(dirname, filename)
+        if os.path.isfile(check_path):
+            return Path(check_path)
+
+    if raise_error_if_not_found:
+        raise IOError("File not found")
+
+    return None
+
+
+def get_pkg_root() -> Path:
+    """
+    Gets the Root directory of oooscript.
+    
+    Path is cached.
+
+    Raises:
+        IOError: If unable to get root directory
+
+    Returns:
+        str: Package root as string path.
+    """
+    global _PKG_ROOT
+    if _PKG_ROOT is not None:
+        return _PKG_ROOT
+    root = find_higher_file()
+    if root is None:
+        raise IOError("Unable to find root directory of oooscript")
+    _PKG_ROOT = root.parent
+    return _PKG_ROOT
 
 
 @overload

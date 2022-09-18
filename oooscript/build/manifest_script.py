@@ -6,7 +6,7 @@ import xml.dom.minidom
 from xml.dom.minicompat import NodeList
 from pathlib import Path
 from typing import Iterable
-from ..utils import util
+from ..cfg import config
 
 
 class ManifestScript:
@@ -20,7 +20,7 @@ class ManifestScript:
         """
         self._path = manifest_path
         self._script_name = script_name
-        self._config = util.get_app_cfg()
+        self._config = config.get_app_cfg()
 
     def write(self) -> None:
         """

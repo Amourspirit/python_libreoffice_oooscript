@@ -4,7 +4,8 @@ import os
 import shutil
 from pathlib import Path
 from typing import Union, List
-from ..utils import util
+from ..utils import paths
+from ..cfg import config
 
 
 class CopyResource:
@@ -34,23 +35,23 @@ class CopyResource:
         Raises:
             FileNotFoundError: If resource path is not found.
         """
-        self._config = util.get_app_cfg()
+        self._config = config.get_app_cfg()
         self._clear_previous = clear_prev
-        _src = util.get_path(src)
+        _src = paths.get_path(src)
         self._dst_is_file = dst_is_file
         if dst is None:
             _dst = None
         else:
-            _dst = util.get_path(dst, ensure_absolute=True)
+            _dst = paths.get_path(dst, ensure_absolute=True)
 
         if src_is_res:
             if _src.is_absolute():
                 self._src = _src
             else:
-                res_path = util.get_path(self._config.app_res_dir, ensure_absolute=True)
+                res_path = paths.get_path(self._config.app_res_dir, ensure_absolute=True)
                 self._src = Path(res_path, _src)
         else:
-            self._src = util.get_path(_src, ensure_absolute=True)
+            self._src = paths.get_path(_src, ensure_absolute=True)
         if not self._src.exists():
             raise FileNotFoundError(f"{self.__class__.__name__} unable to find resource path: '{self._src}'")
         if _dst is None:
@@ -75,12 +76,12 @@ class CopyResource:
     def _copy_dir(self) -> None:
         if self._clear_previous == True and self._dst.exists():
             shutil.rmtree(self._dst)
-        util.mkdirp(self._dst)
+        paths.mkdirp(self._dst)
         shutil.copytree(str(self._src), str(self._dst))
 
     def _copy_file(self) -> None:
         p_dir = self._dst.parent
-        util.mkdirp(p_dir)
+        paths.mkdirp(p_dir)
         self._remove_files_in_dir(p_dir)
         shutil.copy2(self._src, self._dst)
 

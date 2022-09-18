@@ -13,7 +13,8 @@ from pathlib import Path
 from .tmp_dir import tmpdir
 from .copy_resource import CopyResource
 from .manifest_script import ManifestScript
-from ..utils import util
+from ..utils import paths
+from ..cfg import config
 from ..models.example.model_example import ModelExample as Model
 from . import build_util
 
@@ -28,10 +29,10 @@ class EmbedScriptPy:
             doc_path (Union[str, Path, List[str]]): Path to resource LibreOffice document.
             model (ModelExample): Model for example.
         """
-        self._src = util.get_path(src, ensure_absolute=True)
-        self._doc_path = util.get_path(doc_path, ensure_absolute=True)
+        self._src = paths.get_path(src, ensure_absolute=True)
+        self._doc_path = paths.get_path(doc_path, ensure_absolute=True)
         self._model = model
-        self._config = util.get_app_cfg()
+        self._config = config.get_app_cfg()
 
     def embed(self) -> None:
         """
@@ -81,12 +82,12 @@ class EmbedScriptPy:
         def copy_script_to_unzipped(script_src: Path, zip_extract_dst: Path) -> None:
             p_script = zip_extract_dst / "Scripts" / "python"
             dst = Path(p_script, script_src.name)
-            util.mkdirp(p_script)
+            paths.mkdirp(p_script)
             shutil.copy2(script_src, dst)
 
         def copy_zipped_to_build(zip_file: Path) -> None:
             build_path = build_util.get_build_path()
-            util.mkdirp(build_path)
+            paths.mkdirp(build_path)
             build_dest = Path(build_path, f"{self._model.args.output_name}{self._doc_path.suffix}")
             shutil.copy2(zip_file, build_dest)
 
