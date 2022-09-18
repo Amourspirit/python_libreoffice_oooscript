@@ -13,7 +13,7 @@ from .embed_py_script import EmbedScriptPy
 from .copy_resource import CopyResource
 from ..utils import paths
 from ..cfg import config
-from ..models.example.model_example import ModelScriptCfg
+from ..models.script_cfg.model_script_cfg import ModelScriptCfg
 
 
 @dataclass

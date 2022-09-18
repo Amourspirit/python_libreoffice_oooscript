@@ -15,7 +15,7 @@ from .copy_resource import CopyResource
 from .manifest_script import ManifestScript
 from ..utils import paths
 from ..cfg import config
-from ..models.example.model_example import ModelScriptCfg as Model
+from ..models.script_cfg.model_script_cfg import ModelScriptCfg as Model
 from . import build_util
 
 

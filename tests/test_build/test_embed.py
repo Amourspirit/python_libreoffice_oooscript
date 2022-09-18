@@ -7,7 +7,7 @@ from oooscript.build.embed_py_script import EmbedScriptPy
 
 def test_embed(root_path, fix_my_first_macro_path, clear_build_script) -> None:
     from oooscript.res.docs import __res_path_docs__
-    from oooscript.models.example.model_example import ModelScriptCfg
+    from oooscript.models.script_cfg.model_script_cfg import ModelScriptCfg
     from oooscript.cfg import config
 
     # call get_app_cfg() to set util._APP_CFG global.
