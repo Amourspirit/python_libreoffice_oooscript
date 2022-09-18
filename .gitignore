@@ -4,9 +4,12 @@ _test/
 _test/*
 out/
 dist/
+build_script/
 *.log
 .~lock.*
 .python-version
+.env
+/app.py
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python

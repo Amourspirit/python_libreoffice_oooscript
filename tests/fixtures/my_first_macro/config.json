@@ -1,0 +1,16 @@
+{
+  "id": "oooscript",
+  "name": "first_macro",
+  "type": "EXAMPLE",
+  "app": "WRITER",
+  "version": "0.0.1",
+  "args": {
+    "src_file": "script.py",
+    "output_name": "my_first_macro",
+    "single_script": true,
+    "include_modules": [],
+    "include_paths": ["."],
+    "remove_modules": []
+  },
+  "methods": []
+}
