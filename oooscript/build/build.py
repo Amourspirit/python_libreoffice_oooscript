@@ -13,7 +13,7 @@ from .embed_py_script import EmbedScriptPy
 from .copy_resource import CopyResource
 from ..utils import paths
 from ..cfg import config
-from ..models.example.model_example import ModelExample
+from ..models.example.model_example import ModelScriptCfg
 
 
 @dataclass
@@ -65,7 +65,7 @@ class Builder:
         self._site_pkg_dir = None
         with open(self._json_cfg, "r") as file:
             jdata: dict = json.load(file)
-        self._model = ModelExample(**jdata)
+        self._model = ModelScriptCfg(**jdata)
         self._src_file = self._get_src_file()
 
     # endregion Constructor

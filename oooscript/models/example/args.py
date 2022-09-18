@@ -4,7 +4,7 @@ from typing import List
 from .. import validators
 
 
-class ExampleArgs(BaseModel):
+class CfgArgs(BaseModel):
     src_file: str
     output_name: str
     include_modules: List[str] = Field(default_factory=list)

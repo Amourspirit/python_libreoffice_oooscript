@@ -15,7 +15,7 @@ from .copy_resource import CopyResource
 from .manifest_script import ManifestScript
 from ..utils import paths
 from ..cfg import config
-from ..models.example.model_example import ModelExample as Model
+from ..models.example.model_example import ModelScriptCfg as Model
 from . import build_util
 
 
@@ -27,7 +27,7 @@ class EmbedScriptPy:
         Args:
             src (Union[str, Path, List[str]]): Source File, this is usually is a file from build dir.
             doc_path (Union[str, Path, List[str]]): Path to resource LibreOffice document.
-            model (ModelExample): Model for example.
+            model (ModelScriptCfg): Model for example.
         """
         self._src = paths.get_path(src, ensure_absolute=True)
         self._doc_path = paths.get_path(doc_path, ensure_absolute=True)
