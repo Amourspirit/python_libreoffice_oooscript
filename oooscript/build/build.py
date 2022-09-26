@@ -7,8 +7,6 @@ import os
 from dataclasses import dataclass
 from typing import List, Optional
 from distutils.sysconfig import get_python_lib
-import fileinput
-import re
 from .embed_py_script import EmbedScriptPy
 from .copy_resource import CopyResource
 from ..utils import paths
@@ -100,19 +98,6 @@ class Builder:
             result = f"{result}--add-python-path {p!r}"
         return result
 
-    def _remove_modules(self) -> None:
-        s_pattern_start = "^(?:[ \t]*)__stickytape_write_module\('"
-        s_pattern_end = ".*$"
-        # combine default config modules with example config remove modules
-        r_mods = set(self._config.build_remove_modules + self._model.args.remove_modules)
-        for i, p in enumerate(r_mods):
-            pattern = f"{s_pattern_start}{p}{s_pattern_end}"
-            matched = re.compile(pattern).search
-            with fileinput.FileInput(self._dest_file, inplace=1, backup=f".{i}.bak") as file:
-                for line in file:
-                    if not matched(line):  # save lines that do not match
-                        print(line, end="")  # this goes to filename due to inplace=1
-
     def _get_g_exported(self) -> str:
         # g_exportedScripts = (
         #     main,
@@ -181,6 +166,8 @@ class Builder:
                 path=str(self._src_file),
                 add_python_modules=[],
                 add_python_paths=self._get_include_paths(),
+                exclude_python_modules=self._model.args.remove_modules,
+                clean=self._model.args.clean
             )
         with open(self._dest_file, "w") as output_file:
             output_file.write(output)
@@ -193,7 +180,6 @@ class Builder:
             print("Generated File: " + self._dest_file)
         # endregion Report
         if self._model.args.single_script is False:
-            self._remove_modules()
             self._append_g_exported()
         if self._embed:
             self._embed_script()

@@ -9,12 +9,13 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 python-dotenv = "^0.21.0"
-stickytape = "0.2.1"
 pydantic = "^1.10.2"
+stickytape = {git = "https://github.com/Amourspirit/stickytape.git", rev = "2d9888db9741e07c190d8df5bcc71c81c568d527"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
 typing-extensions = "^4.3.0"
+ooo-dev-tools = "^0.4.20"
 
 [tool.poetry.group.test.dependencies]
 pytest = "7.1.3"

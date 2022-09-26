@@ -1,0 +1,20 @@
+{
+  "id": "oooscript",
+  "name": "message_box",
+  "type": "EXAMPLE",
+  "app": "WRITER",
+  "version": "0.1.0",
+  "args": {
+    "src_file": "script.py",
+    "output_name": "msgbox",
+    "single_script": false,
+    "clean": true
+  },
+  "methods": [
+    "msg_small",
+    "msg_long",
+    "msg_default_yes",
+    "msg_error",
+    "msg_warning"
+  ]
+}

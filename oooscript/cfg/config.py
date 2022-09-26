@@ -54,7 +54,7 @@ def _get_default_config() -> Dict[str, Any]:
         "app_res_dir": str(res_dir),
         "app_res_blank_odt": str(Path(res_dir, "docs", "blank.odt")),
         "xml_manifest_namesapce": "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
-        "build_remove_modules": ["uno", "scriptforge", "access2base"],
+        "build_remove_modules": ["uno", "scriptforge*", "access2base*"],
         "build_include_paths": ["."],
     }
     return config

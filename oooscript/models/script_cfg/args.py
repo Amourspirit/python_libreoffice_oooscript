@@ -11,4 +11,5 @@ class CfgArgs(BaseModel):
     include_paths: List[str] = Field(default_factory=list)
     remove_modules: List[str] = Field(default_factory=list)
     single_script: bool = False
+    clean: bool = True
     _str_null_empty = validator("src_file", "output_name", allow_reuse=True)(validators.str_null_empty)
