@@ -28,6 +28,7 @@ packages = [
     { include = "oooscript" }
 ]
 
+
 [tool.poetry.scripts]
 oooscript = 'oooscript.cli.main:run'
 
