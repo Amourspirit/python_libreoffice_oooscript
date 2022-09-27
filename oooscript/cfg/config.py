@@ -1,10 +1,12 @@
 # coding: utf-8
+import os
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from dotenv import dotenv_values
 from ..res import __res_path__
 from ..utils import paths
+
 
 _APP_CFG = None
 @dataclass
@@ -73,6 +75,11 @@ def read_config(config_name: str) -> AppConfig:
     default_cfg = _get_default_config()
     config = dotenv_values(config_name)
     default_cfg.update(config)
+    # can override app build directory from environment.
+    # this is for testing purposes
+    app_build = os.environ.get("OOOSCRIPT_APP_BUILD_DIR", None)
+    if app_build:
+        default_cfg["app_build_dir"] = app_build
     return AppConfig(**default_cfg)
 
 
