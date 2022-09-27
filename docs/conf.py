@@ -82,7 +82,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
 
-html_css_files = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"]
+html_css_files = ["https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"]
 html_css_files.append("css/readthedocs_custom.css")
 if html_theme == "sphinx_rtd_theme":
     html_css_files.append("css/readthedocs_dark.css")
@@ -100,3 +100,11 @@ napoleon_include_init_with_doc = True
 # a master list of todo's will be on bottom of main page.
 # https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#module-sphinx.ext.todo
 todo_include_todos = False
+
+rst_prolog_lst = []
+rst_prolog_lst.append(f".. |app_name| replace:: {project}")
+rst_prolog_lst.append("")
+rst_prolog_lst.append(f".. |app_name_bold| replace:: **{project}**")
+rst_prolog_lst.append("")
+
+rst_prolog = "\n".join(rst_prolog_lst)
