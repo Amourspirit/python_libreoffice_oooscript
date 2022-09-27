@@ -1,10 +1,35 @@
 [tool.poetry]
 name = "oooscript"
 version = "0.1.0"
-description = "Description here"
+description = "Compiles several python scripts into a single script that can be eaisly used by LibreOffice as a macro."
 authors = [":Barry-Thomas-Paul: Moss <vibrationoflife@protonmail.com>"]
+homepage = "https://github.com/Amourspirit/python_libreoffice_oooscript"
+documentation = "https://github.com/Amourspirit/python_libreoffice_oooscript"
+repository = "https://github.com/Amourspirit/python_libreoffice_oooscript"
 license = "MIT"
 readme = "README.md"
+keywords = ["ooouno", "libreoffice", "stickytape", "uno", "pyuno", "macro"]
+classifiers=[
+    "License :: OSI Approved :: Apache Software License",
+    "Environment :: Other Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
+]
+packages = [
+    { include = "oooscript" }
+]
+
+[tool.poetry.scripts]
+oooscript = 'oooscript.cli.main:run'
 
 [tool.poetry.dependencies]
 python = "^3.7"
