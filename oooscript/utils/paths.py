@@ -130,7 +130,12 @@ def get_root() -> str:
     """
     global _APP_ROOT
     if _APP_ROOT is None:
-        root = find_dotenv()
+        try:
+            root = find_dotenv(raise_error_if_not_found=True)
+        except IOError:
+            _APP_ROOT = os.getcwd()
+            return _APP_ROOT
+
         if root == "":
             root = os.environ.get("project_root", "")
         else:
@@ -216,7 +221,7 @@ def find_higher_file(
 def get_pkg_root() -> Path:
     """
     Gets the Root directory of oooscript.
-    
+
     Path is cached.
 
     Raises:

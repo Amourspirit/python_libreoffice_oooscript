@@ -73,8 +73,11 @@ def read_config(config_name: str) -> AppConfig:
         AppConfig: Configuration object
     """
     default_cfg = _get_default_config()
-    config = dotenv_values(config_name)
-    default_cfg.update(config)
+    try:
+        config = dotenv_values(config_name)
+        default_cfg.update(config)
+    except Exception:
+        pass
     # can override app build directory from environment.
     # this is for testing purposes
     app_build = os.environ.get("OOOSCRIPT_APP_BUILD_DIR", None)
