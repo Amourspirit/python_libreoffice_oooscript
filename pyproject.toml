@@ -41,7 +41,7 @@ stickytape = {git = "https://github.com/Amourspirit/stickytape.git", rev = "2d98
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
 typing-extensions = "^4.3.0"
-ooo-dev-tools = "0.4.20"
+ooo-dev-tools = "^0.4.21"
 
 [tool.poetry.group.test.dependencies]
 pytest = "7.1.3"

@@ -359,7 +359,7 @@ icu = ["PyICU (>=1.0.0)"]
 
 [[package]]
 name = "ooo-dev-tools"
-version = "0.4.20"
+version = "0.4.21"
 description = "LibreOffice Developer Tools"
 category = "dev"
 optional = false
@@ -1014,7 +1014,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "99d203e4e62a297d360c843870726430c9e3b7af3a90522587ffd46fe10e7d53"
+content-hash = "db8992e189ea2ee0f2f8b5fd1d31c8bd78f265980875c225057a9f14516da580"
 
 [metadata.files]
 alabaster = [
@@ -1315,8 +1315,8 @@ natsort = [
     {file = "natsort-8.2.0.tar.gz", hash = "sha256:57f85b72c688b09e053cdac302dd5b5b53df5f73ae20b4874fcbffd8bf783d11"},
 ]
 ooo-dev-tools = [
-    {file = "ooo-dev-tools-0.4.20.tar.gz", hash = "sha256:9538dde29d10f683eec322da92f270084dbf2976883e12a558f6f64b338dba77"},
-    {file = "ooo_dev_tools-0.4.20-py3-none-any.whl", hash = "sha256:81232f7e6162f9ba188a9e6860c8d517b8057e79ae544c0bfb122bdb7c2812d8"},
+    {file = "ooo-dev-tools-0.4.21.tar.gz", hash = "sha256:6ca9f621ea3b0e188edc008c69258fe31f344b5fd20a025f13d1029c8d33a627"},
+    {file = "ooo_dev_tools-0.4.21-py3-none-any.whl", hash = "sha256:575b87a9259f2fc09f16cc7c04f148d4f34cc402bcf9a7a69a1bd1dd5b37a7f7"},
 ]
 ooouno = [
     {file = "ooouno-0.2.4-py3-none-any.whl", hash = "sha256:d61a992a7cb49f8796497a5e9561f569f0d2990032ce45c4b684a0a3e906fea8"},
