@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 @pytest.mark.parametrize('fix_macro_path, expected_mod_count, expected_modules', [
     ('fix_my_first_macro_path', 0, None),
-    ('fix_msgbox_path', 100, None),
+    ('fix_msgbox_path', 99, None),
     ('fix_suduko_path', 14, None)
     ])
 def test_writes_py(fix_macro_path, expected_mod_count:int, expected_modules: list, run_cli_cmd, tmp_path: Path, get_config_model, unzip, chk_script, request) -> None:

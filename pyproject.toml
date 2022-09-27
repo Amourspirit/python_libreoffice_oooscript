@@ -41,11 +41,17 @@ stickytape = {git = "https://github.com/Amourspirit/stickytape.git", rev = "2d98
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"
 typing-extensions = "^4.3.0"
-ooo-dev-tools = "0.4.20"
+ooo-dev-tools = "^0.4.21"
 
 [tool.poetry.group.test.dependencies]
 pytest = "7.1.3"
 tox-poetry = "^0.4.1"
+
+
+[tool.poetry.group.docs.dependencies]
+sphinx-toolbox = "^3.2.0"
+sphinxcontrib-spelling = "^7.6.0"
+sphinx-rtd-dark-mode = "^1.2.4"
 
 [build-system]
 requires = ["poetry-core"]
