@@ -350,3 +350,13 @@ def get_site_packeges_dir() -> Union[Path, None]:
     if p_site.exists() and p_site.is_dir():
         return p_site
     return None
+
+def get_pkg_res_path() -> Path:
+    """
+    Gets oooscript's ressource path
+
+    Returns:
+        Path: Resource Path
+    """
+    root = get_pkg_root()
+    return root / "res"

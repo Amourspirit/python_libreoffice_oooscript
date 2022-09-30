@@ -31,6 +31,13 @@ def test_msgbox_calc(fix_msgbox_path, res_docs_path, clear_build_script):
     builder = Builder(args)
     builder.build()
 
+def test_msgbox_calc_blank(fix_msgbox_path, clear_build_script, monkeypatch):
+    from oooscript.lib.enums import AppTypeEnum
+    macro_config = fix_msgbox_path("config.json")
+    args = BuilderArgs(config_json=macro_config, embed_in_doc=True)
+    builder = Builder(args)
+    monkeypatch.setattr(builder._model, "app", AppTypeEnum.CALC)
+    builder.build()
 
 def test_msgbox_presentation(fix_msgbox_path, res_docs_path, clear_build_script):
     from oooscript.res.docs import __res_path_docs__
@@ -41,6 +48,13 @@ def test_msgbox_presentation(fix_msgbox_path, res_docs_path, clear_build_script)
     builder = Builder(args)
     builder.build()
 
+def test_msgbox_presentation_blank(fix_msgbox_path, clear_build_script, monkeypatch):
+    from oooscript.lib.enums import AppTypeEnum
+    macro_config = fix_msgbox_path("config.json")
+    args = BuilderArgs(config_json=macro_config, embed_in_doc=True)
+    builder = Builder(args)
+    monkeypatch.setattr(builder._model, "app", AppTypeEnum.IMPRESS)
+    builder.build()
 
 def test_msgbox_math(fix_msgbox_path, res_docs_path, clear_build_script):
     from oooscript.res.docs import __res_path_docs__

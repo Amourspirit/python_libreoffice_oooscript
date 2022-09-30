@@ -12,6 +12,7 @@ from .copy_resource import CopyResource
 from ..utils import paths
 from ..cfg import config
 from ..models.script_cfg.model_script_cfg import ModelScriptCfg
+from ..lib.enums import AppTypeEnum
 
 
 @dataclass
@@ -61,10 +62,10 @@ class Builder:
         # )
         self._src_path = self._json_cfg.parent
         self._site_pkg_dir = None
-        with open(self._json_cfg, "r") as file:
-            jdata: dict = json.load(file)
+        jdata = json.loads(self._json_cfg.read_text())
         self._model = ModelScriptCfg(**jdata)
         self._src_file = self._get_src_file()
+        self._res_path = paths.get_pkg_res_path()
 
     # endregion Constructor
 
@@ -116,9 +117,29 @@ class Builder:
         with open(self._dest_file, "a") as file:
             file.write(self._get_g_exported())
 
+    def _get_blank_embed_doc(self) -> Path | None:
+        t = self._model.app
+        if t == AppTypeEnum.CALC:
+            return self._res_path / "docs" / "blank.ods"
+        elif t == AppTypeEnum.DRAW:
+            return self._res_path / "docs" / "blank.odg"
+        elif t == AppTypeEnum.IMPRESS:
+            return self._res_path / "docs" / "blank.odp"
+        elif t == AppTypeEnum.MATH:
+            return self._res_path / "docs" / "blank.odf"
+        elif t == AppTypeEnum.WRITER:
+            return self._res_path / "docs" / "blank.odt"
+        else:
+            # base is not currently supported
+            return None
+
+
     def _embed_script(self) -> None:
         if self._embed_doc is None:
-            src_doc = self._config.app_res_blank_odt
+            # src_doc = self._config.app_res_blank_odt
+            src_doc = self._get_blank_embed_doc()
+            if src_doc is None:
+                return None
         else:
             src_doc = paths.get_path(self._embed_doc)
         cp = CopyResource(src=src_doc, dst=None, clear_prev=False, src_is_res=self._embed_doc is None)
