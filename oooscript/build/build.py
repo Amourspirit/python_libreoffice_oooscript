@@ -2,7 +2,7 @@
 from __future__ import annotations
 import json
 from pathlib import Path
-import stickytape
+import scriptmerge
 import os
 from dataclasses import dataclass
 from typing import List, Optional
@@ -145,8 +145,8 @@ class Builder:
             os.remove(self._dest_file)
             if self.allow_print:
                 print("Deleted File: " + self._dest_file)
-        # region Make file using stickytape
-        # processer = "stickytape"
+        # region Make file using scriptmerge
+        # processer = "scriptmerge"
         # site_inc_path = self._get_site_include_path()
         # params = f"'{self._src_file}' {site_inc_path} --output-file {self._dest_file!r}".replace(
         #     "  ", " "
@@ -162,16 +162,18 @@ class Builder:
             with open(self._src_file, "r") as sfile:
                 output = sfile.read()
         else:
-            output = stickytape.script(
+            # get exclude modules, don't worrie about duplicates, scriptmereg handles it.
+            exclude_modules = self._model.args.remove_modules + self._config.build_remove_modules
+            output = scriptmerge.script(
                 path=str(self._src_file),
                 add_python_modules=[],
                 add_python_paths=self._get_include_paths(),
-                exclude_python_modules=self._model.args.remove_modules,
+                exclude_python_modules=exclude_modules,
                 clean=self._model.args.clean
             )
         with open(self._dest_file, "w") as output_file:
             output_file.write(output)
-        # endregion Make file using stickytape
+        # endregion Make file using scriptmerge
         # region Append Global Exports
 
         # endregion Append Global Exports
