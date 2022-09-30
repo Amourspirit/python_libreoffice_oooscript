@@ -34,7 +34,7 @@ def run_shell_cmd() -> bytes:
 @pytest.fixture(scope="session")
 def get_expected_modules():
     def _get_expected_modules(script_str):
-        return set(re.findall(r"__stickytape_write_module\('([^']*)\.py'", script_str))
+        return set(re.findall(r"__scriptmerge_write_module\('([^']*)\.py'", script_str))
 
     return _get_expected_modules
 
