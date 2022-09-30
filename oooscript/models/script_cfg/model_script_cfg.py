@@ -1,6 +1,6 @@
 # coding: utf-8
 from pydantic import BaseModel, validator
-from typing import List, Optional
+from typing import List
 from .args import CfgArgs
 from .. import validators
 from ..model_type_enum import ModelTypeEnum

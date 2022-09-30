@@ -30,13 +30,13 @@ packages = [
 
 
 [tool.poetry.scripts]
-oooscript = 'oooscript.cli.main:run'
+oooscript = 'oooscript.cli.main:main'
 
 [tool.poetry.dependencies]
 python = "^3.7"
 python-dotenv = "^0.21.0"
 pydantic = "^1.10.2"
-stickytape = {git = "https://github.com/Amourspirit/stickytape.git", rev = "2d9888db9741e07c190d8df5bcc71c81c568d527"}
+scriptmerge = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"

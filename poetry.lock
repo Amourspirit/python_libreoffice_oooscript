@@ -576,6 +576,14 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "scriptmerge"
+version = "1.0.0"
+description = "Convert Python packages into a single script"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -833,21 +841,6 @@ Sphinx = ">=3.0.0"
 test = ["coverage (>=4.0,!=4.4)", "pytest", "pytest-cov"]
 
 [[package]]
-name = "stickytape"
-version = "0.2.1"
-description = "Convert Python packages into a single script"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/Amourspirit/stickytape.git"
-reference = "2d9888db9741e07c190d8df5bcc71c81c568d527"
-resolved_reference = "2d9888db9741e07c190d8df5bcc71c81c568d527"
-
-[[package]]
 name = "tabulate"
 version = "0.8.10"
 description = "Pretty-print tabular data"
@@ -1014,7 +1007,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "db8992e189ea2ee0f2f8b5fd1d31c8bd78f265980875c225057a9f14516da580"
+content-hash = "d46743117ca1d94c82d712de3e656b6649ba220e4cc9c101a22828c68bdcc626"
 
 [metadata.files]
 alabaster = [
@@ -1506,6 +1499,10 @@ requests = [
     {file = "ruamel.yaml.clib-0.2.6-cp39-cp39-win_amd64.whl", hash = "sha256:825d5fccef6da42f3c8eccd4281af399f21c02b32d98e113dbc631ea6a6ecbc7"},
     {file = "ruamel.yaml.clib-0.2.6.tar.gz", hash = "sha256:4ff604ce439abb20794f05613c374759ce10e3595d1867764dd1ae675b85acbd"},
 ]
+scriptmerge = [
+    {file = "scriptmerge-1.0.0-py3-none-any.whl", hash = "sha256:2bab6c3b53b8aa0fd95fdb404ff8e33b94dbeb11b7f6d7568102f3bbbd78688b"},
+    {file = "scriptmerge-1.0.0.tar.gz", hash = "sha256:b97dd3c61a3547fad7189c3793905a359fb997507d1e4af87a9c16001897b0ed"},
+]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
@@ -1577,7 +1574,6 @@ sphinxcontrib-spelling = [
     {file = "sphinxcontrib-spelling-7.6.0.tar.gz", hash = "sha256:292cd7e1f73a763451693b4d48c9bded151084f6a91e5337733e9fa8715d20ec"},
     {file = "sphinxcontrib_spelling-7.6.0-py3-none-any.whl", hash = "sha256:6c1313618412511109f7b76029fbd60df5aa4acf67a2dc9cd1b1016d15e882ff"},
 ]
-stickytape = []
 tabulate = [
     {file = "tabulate-0.8.10-py3-none-any.whl", hash = "sha256:0ba055423dbaa164b9e456abe7920c5e8ed33fcc16f6d1b2f2d152c8e1e8b4fc"},
     {file = "tabulate-0.8.10.tar.gz", hash = "sha256:6c57f3f3dd7ac2782770155f3adb2db0b1a269637e42f27599925e64b114f519"},
