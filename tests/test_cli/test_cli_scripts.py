@@ -17,7 +17,7 @@ def test_writes_py(fix_macro_path, expected_mod_count:int, expected_modules: lis
 
     macro_config = fix_my_first_macro_path("config.json")
     model = cast("ModelScriptCfg", get_config_model(macro_config))
-    run_cli_cmd("--embed", "--config", str(macro_config), out_path=tmp_path)
+    run_cli_cmd("compile", "--embed", "--config", str(macro_config), out_path=tmp_path)
     out_file = tmp_path / f"{model.args.output_name}.py"
     out_doc = tmp_path / f"{model.args.output_name}.odt"
 
