@@ -98,3 +98,23 @@ a .rst-content .admonition tt {
 }
 
 /* End Summary Example for .. collapse Example sections */
+
+ul.ul-list {
+    list-style-type: circle;
+    margin: 0 0 24px;
+    padding: 0;
+}
+ul.ul-list>li {
+    line-height: 24px;
+    list-style-position: outside;
+    list-style-type: circle;
+    margin: 0;
+    margin-left:24px;
+    padding: 0;
+}
+ul.ul-list>li>p {
+    line-height: 24px;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}

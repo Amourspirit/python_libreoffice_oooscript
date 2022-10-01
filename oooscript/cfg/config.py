@@ -24,7 +24,7 @@ class AppConfig:
     """
     Name of LO manifest xml file such as `urn:oasis:names:tc:opendocument:xmlns:manifest:1.0`
     """
-    build_remove_modules: List[str]
+    build_exclude_modules: List[str]
     """
     Modules to remove from compiled scripts such as ['uno', 'scriptforge', 'access2base']
     
@@ -43,11 +43,22 @@ def _get_default_config() -> Dict[str, Any]:
         "lo_script_dir": "~/.config/libreoffice/4/user",
         "app_build_dir": "build_script",
         "xml_manifest_namesapce": "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
-        "build_remove_modules": ["uno\\.*", "unohelper\\.*", "scriptforge\\.*", "access2base\\.*"],
+        "build_exclude_modules": ["uno\\.*", "unohelper\\.*", "scriptforge\\.*", "access2base\\.*"],
         "build_include_paths": ["."],
     }
     return config
 
+def _split_list(cfg:Dict[str, str]) -> None:
+    args = ("build_exclude_modules", "build_include_paths")
+    for arg in args:
+        value = cfg.get(arg, None)
+        if value is not None:
+            if value == "":
+                cfg[arg] = []
+            else:
+                sl = value.split(',')
+                cfg[arg] = [s.strip() for s in sl]
+    
 
 def read_config(config_name: str) -> AppConfig:
     """
@@ -62,6 +73,7 @@ def read_config(config_name: str) -> AppConfig:
     default_cfg = _get_default_config()
     try:
         config = dotenv_values(config_name)
+        _split_list(config)
         default_cfg.update(config)
     except Exception:
         pass

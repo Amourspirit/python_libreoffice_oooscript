@@ -184,7 +184,7 @@ class Builder:
                 output = sfile.read()
         else:
             # get exclude modules, don't worrie about duplicates, scriptmereg handles it.
-            exclude_modules = self._model.args.remove_modules + self._config.build_remove_modules
+            exclude_modules = self._model.args.exclude_modules + self._config.build_exclude_modules
             output = scriptmerge.script(
                 path=str(self._src_file),
                 add_python_modules=[],

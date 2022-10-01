@@ -13,11 +13,3 @@ Welcome to |app_name|'s documentation!
    :caption: Contents:
 
    oooscript/index
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

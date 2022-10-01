@@ -80,3 +80,13 @@ TODO
 
     When 'todo_include_todos = True' is set in conf.py the main page will list all todo's for across a documents.
     Also each document that contains a todo will disply it on its doc page.
+
+Unordered List
+
+    Currently the sphinx_rtd_theme theme does not have good support for Unordered list.
+    For unorder list use the custom ul-list calss 
+        .. cssclass:: ul-list
+
+            ONE
+            TWO
+            THREE
