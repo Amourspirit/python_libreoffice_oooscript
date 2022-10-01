@@ -32,7 +32,7 @@ class ManifestScript:
         """
         Adds Script elements to manifest.xml file.
         """
-        ns = self._config.xml_manifest_namesapce
+        ns = self._config.xml_manifest_namespace
 
         domtree = self.read()
         group = cast(xml.dom.minidom.Element, domtree.documentElement)
