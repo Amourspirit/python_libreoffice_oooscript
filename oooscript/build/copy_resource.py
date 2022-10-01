@@ -48,7 +48,7 @@ class CopyResource:
             if _src.is_absolute():
                 self._src = _src
             else:
-                res_path = paths.get_path(self._config.app_res_dir, ensure_absolute=True)
+                res_path = paths.get_pkg_res_path()
                 self._src = Path(res_path, _src)
         else:
             self._src = paths.get_path(_src, ensure_absolute=True)

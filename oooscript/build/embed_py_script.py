@@ -111,7 +111,7 @@ class EmbedScriptPy:
             # update manifest in unziped dir
             manifest_path = zip_extract_dst / "META-INF" / "manifest.xml"
             mfs = ManifestScript(manifest_path=manifest_path, script_name=self._src.name)
-            mfs.write()
+            mfs.write(verify=True)
 
             # remove zip file in tmp dir.
             if zip_path.exists():

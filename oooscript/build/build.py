@@ -2,7 +2,7 @@
 from __future__ import annotations
 import json
 from pathlib import Path
-import stickytape
+import scriptmerge
 import os
 from dataclasses import dataclass
 from typing import List, Optional
@@ -12,6 +12,7 @@ from .copy_resource import CopyResource
 from ..utils import paths
 from ..cfg import config
 from ..models.script_cfg.model_script_cfg import ModelScriptCfg
+from ..lib.enums import AppTypeEnum
 
 
 @dataclass
@@ -61,10 +62,10 @@ class Builder:
         # )
         self._src_path = self._json_cfg.parent
         self._site_pkg_dir = None
-        with open(self._json_cfg, "r") as file:
-            jdata: dict = json.load(file)
+        jdata = json.loads(self._json_cfg.read_text())
         self._model = ModelScriptCfg(**jdata)
         self._src_file = self._get_src_file()
+        self._res_path = paths.get_pkg_res_path()
 
     # endregion Constructor
 
@@ -116,9 +117,29 @@ class Builder:
         with open(self._dest_file, "a") as file:
             file.write(self._get_g_exported())
 
+    def _get_blank_embed_doc(self) -> Path | None:
+        t = self._model.app
+        if t == AppTypeEnum.CALC:
+            return self._res_path / "docs" / "blank.ods"
+        elif t == AppTypeEnum.DRAW:
+            return self._res_path / "docs" / "blank.odg"
+        elif t == AppTypeEnum.IMPRESS:
+            return self._res_path / "docs" / "blank.odp"
+        elif t == AppTypeEnum.MATH:
+            return self._res_path / "docs" / "blank.odf"
+        elif t == AppTypeEnum.WRITER:
+            return self._res_path / "docs" / "blank.odt"
+        else:
+            # base is not currently supported
+            return None
+
+
     def _embed_script(self) -> None:
         if self._embed_doc is None:
-            src_doc = self._config.app_res_blank_odt
+            # src_doc = self._config.app_res_blank_odt
+            src_doc = self._get_blank_embed_doc()
+            if src_doc is None:
+                return None
         else:
             src_doc = paths.get_path(self._embed_doc)
         cp = CopyResource(src=src_doc, dst=None, clear_prev=False, src_is_res=self._embed_doc is None)
@@ -145,8 +166,8 @@ class Builder:
             os.remove(self._dest_file)
             if self.allow_print:
                 print("Deleted File: " + self._dest_file)
-        # region Make file using stickytape
-        # processer = "stickytape"
+        # region Make file using scriptmerge
+        # processer = "scriptmerge"
         # site_inc_path = self._get_site_include_path()
         # params = f"'{self._src_file}' {site_inc_path} --output-file {self._dest_file!r}".replace(
         #     "  ", " "
@@ -162,16 +183,18 @@ class Builder:
             with open(self._src_file, "r") as sfile:
                 output = sfile.read()
         else:
-            output = stickytape.script(
+            # get exclude modules, don't worrie about duplicates, scriptmereg handles it.
+            exclude_modules = self._model.args.exclude_modules + self._config.build_exclude_modules
+            output = scriptmerge.script(
                 path=str(self._src_file),
                 add_python_modules=[],
                 add_python_paths=self._get_include_paths(),
-                exclude_python_modules=self._model.args.remove_modules,
+                exclude_python_modules=exclude_modules,
                 clean=self._model.args.clean
             )
         with open(self._dest_file, "w") as output_file:
             output_file.write(output)
-        # endregion Make file using stickytape
+        # endregion Make file using scriptmerge
         # region Append Global Exports
 
         # endregion Append Global Exports
