@@ -10,7 +10,7 @@ Install |app_name_bold| into your project.
 Create an ``.env`` file in your root directory. File can be empty. See :ref:`env`.
 
 Create ``config.json`` in your projects source directory.
-Add the necessary configurtion to ``config.json``. See :ref:`config`.
+Add the necessary configuration to ``config.json``. See :ref:`config`.
 
 Build your script.
 

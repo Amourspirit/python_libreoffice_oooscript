@@ -1,8 +1,11 @@
 import os
 import sys
 from datetime import date
-import importlib.metadata
 from pathlib import Path
+try:
+    from importlib import metadata
+except ImportError:  # for Python<3.8
+    import importlib_metadata as metadata
 
 
 # Configuration file for the Sphinx documentation builder.
@@ -21,11 +24,10 @@ sys.path.insert(0, str(_ROOT_PATH))
 os.environ["DOCS_BUILDING"] = "True"
 
 
-todays_date = date.today()
 project = 'oooscript'
-dist = importlib.metadata.Distribution.from_name(project)
+dist = metadata.Distribution.from_name(project)
 author = dist.metadata["Author"]
-copyright = f'{todays_date.year}, {author}'
+copyright = f'2022, {author}'
 release = dist.version
 
 
