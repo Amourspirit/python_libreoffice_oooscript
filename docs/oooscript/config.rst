@@ -3,6 +3,11 @@
 Configuration
 =============
 
+.. spelling:word-list::
+
+        src
+        dir
+
 |app_name_bold| requires the presents of a configuration file in your project such as ``config.json``.
 
 This configuration file is used to set parameters for |app_name_bold| and is generally
@@ -99,10 +104,11 @@ The current version of |app_name_bold| can be obtained on the command line:
 
 methods
 ^^^^^^^
+
 Optional. Type: list of string
 
 This is the methods that are exported by your script.
-The methods listed there will be the exact methos of ``g_exportedScripts`` value.
+The methods listed there will be the exact methods of ``g_exportedScripts`` value.
 
 .. note::
 
@@ -119,11 +125,11 @@ args
 .. _config_args_src_file:
 
 src_file
-""""""""
+""""""""""""""""""""""""""
 
 Required. Type: string
 
-The soure (main) entry point file realitive to config file.
+The source (main) entry point file relative to config file.
 
 This is the python script that LibreOffice will actually see.
 
@@ -141,7 +147,7 @@ The output name of script and/or document.
 single_script
 """""""""""""
 
-Optional. Type: boolean. Defalult: ``false``
+Optional. Type: boolean. Default: ``false``
 
 Indicates if the script is a standalone script of has imports.
 
@@ -154,7 +160,7 @@ clean
 
 Optional. Type: boolean. Default: ``true``
 
-If ``true`` then all docstrings and comments are removed from imported scripts.
+If ``true`` then all doc strings and comments are removed from imported scripts.
 
 .. _config_args_include_modules:
 
@@ -184,16 +190,16 @@ exclude_modules
 
 Optional. Type: list of string
 
-List of modules to exclude from project, as regex expressons.
+List of modules to exclude from project, as regex expressions.
 
 When using some projects such as |odev|_ (ODEV) the package may support working both as a macro and
-stand alone modes. In such cases there may be dependencies that are needed for standand alone mode
+stand alone modes. In such cases there may be dependencies that are needed for standard alone mode
 that are not required for macro mode.
 
-For instance ODEV uses ``sphinx``, ``lxml`` and ``PIL`` packages for various puropses but these
+For instance ODEV uses ``sphinx``, ``lxml`` and ``PIL`` packages for various purposes but these
 packages not available in macro mode by default. Also these package are not need to run ODEV in macro mode.
 
-To exlude these package when using ODEV:
+To exclude these package when using ODEV:
 
 .. code-block:: json
 
@@ -203,7 +209,7 @@ To exlude these package when using ODEV:
       }
     }
 
-|app_name_bold| by defalult excludes ``uno``, ``unohelper``, ``scriptforge``, and ``access2base``.
+|app_name_bold| by default excludes ``uno``, ``unohelper``, ``scriptforge``, and ``access2base``.
 
 In the unlikely event you would need to override the default excludes of :ref:`env`. See: :ref:`env_build_exclude_modules`.
 

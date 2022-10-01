@@ -10,7 +10,7 @@ If you project has external dependencies then this task becomes even more challe
 
 This is where |app_name_bold| comes in.
 |app_name_bold| makes it possible to compile scripts into one single python script and
-have that script automaticlly embed into a LibreOffice document.
+have that script automatically embed into a LibreOffice document.
 
 Sometimes you may need to use other dependencies in you project such as ooouno_ and ooo-dev-tools_.
 

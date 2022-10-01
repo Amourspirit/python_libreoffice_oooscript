@@ -20,7 +20,7 @@ class AppConfig:
     """
     Path Like structure to build dir
     """
-    xml_manifest_namesapce: str
+    xml_manifest_namespace: str
     """
     Name of LO manifest xml file such as `urn:oasis:names:tc:opendocument:xmlns:manifest:1.0`
     """
@@ -42,7 +42,7 @@ def _get_default_config() -> Dict[str, Any]:
     config = {
         "lo_script_dir": "~/.config/libreoffice/4/user",
         "app_build_dir": "build_script",
-        "xml_manifest_namesapce": "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
+        "xml_manifest_namespace": "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
         "build_exclude_modules": ["uno\\.*", "unohelper\\.*", "scriptforge\\.*", "access2base\\.*"],
         "build_include_paths": ["."],
     }
