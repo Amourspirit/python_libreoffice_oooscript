@@ -1,7 +1,6 @@
 {
   "id": "oooscript",
   "name": "message_box",
-  "type": "EXAMPLE",
   "app": "WRITER",
   "version": "0.1.0",
   "args": {
@@ -9,7 +8,7 @@
     "output_name": "msgbox",
     "single_script": false,
     "clean": true,
-    "remove_modules": ["sphinx\\.*", "lxml\\.*"]
+    "exclude_modules": ["sphinx\\.*", "lxml\\.*"]
   },
   "methods": [
     "msg_small",

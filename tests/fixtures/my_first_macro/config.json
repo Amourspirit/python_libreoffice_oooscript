@@ -8,6 +8,5 @@
     "src_file": "script.py",
     "output_name": "my_first_macro",
     "single_script": true
-  },
-  "methods": []
+  }
 }

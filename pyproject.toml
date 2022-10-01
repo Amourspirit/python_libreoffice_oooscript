@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oooscript"
-version = "0.1.0"
+version = "1.0.0"
 description = "Compiles several python scripts into a single script that can be eaisly used by LibreOffice as a macro."
 authors = [":Barry-Thomas-Paul: Moss <vibrationoflife@protonmail.com>"]
 homepage = "https://github.com/Amourspirit/python_libreoffice_oooscript"
@@ -30,13 +30,13 @@ packages = [
 
 
 [tool.poetry.scripts]
-oooscript = 'oooscript.cli.main:run'
+oooscript = 'oooscript.cli.main:main'
 
 [tool.poetry.dependencies]
 python = "^3.7"
 python-dotenv = "^0.21.0"
 pydantic = "^1.10.2"
-stickytape = {git = "https://github.com/Amourspirit/stickytape.git", rev = "2d9888db9741e07c190d8df5bcc71c81c568d527"}
+scriptmerge = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.8.0"

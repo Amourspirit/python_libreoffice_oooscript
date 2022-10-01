@@ -4,6 +4,8 @@ LibreOffice Python Script Compiler
 
 .. toctree::
     :titlesonly:
-    :glob:
 
-    *
+    quick_start
+    config
+    env
+    dev
