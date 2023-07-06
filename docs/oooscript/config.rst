@@ -8,7 +8,7 @@ Configuration
         src
         dir
 
-|app_name_bold| requires the presents of a configuration file in your project such as ``config.json``.
+|app_name_bold| requires the presence of a configuration file in your project such as ``config.json``.
 
 This configuration file is used to set parameters for |app_name_bold| and is generally
 located in the same directory and your source files.
