@@ -9,9 +9,10 @@ from ..utils import paths
 
 
 _APP_CFG = None
+
+
 @dataclass
 class AppConfig:
-
     lo_script_dir: str
     """
     Path Like structure to libre office scripts director.
@@ -48,7 +49,8 @@ def _get_default_config() -> Dict[str, Any]:
     }
     return config
 
-def _split_list(cfg:Dict[str, str]) -> None:
+
+def _split_list(cfg: Dict[str, str]) -> None:
     args = ("build_exclude_modules", "build_include_paths")
     for arg in args:
         value = cfg.get(arg, None)
@@ -56,9 +58,15 @@ def _split_list(cfg:Dict[str, str]) -> None:
             if value == "":
                 cfg[arg] = []
             else:
-                sl = value.split(',')
+                sl = value.split(",")
                 cfg[arg] = [s.strip() for s in sl]
-    
+
+
+def _update_default_config(default_cfg: Dict[str, Any], cfg: Dict[str, Any]) -> None:
+    for key, value in cfg.items():
+        if key.lower() in default_cfg:
+            default_cfg[key.lower()] = value
+
 
 def read_config(config_name: str) -> AppConfig:
     """
@@ -72,9 +80,11 @@ def read_config(config_name: str) -> AppConfig:
     """
     default_cfg = _get_default_config()
     try:
+        # config may contain values that are not in default config.
         config = dotenv_values(config_name)
         _split_list(config)
-        default_cfg.update(config)
+        # default_cfg.update(config)
+        _update_default_config(default_cfg, config)
     except Exception:
         pass
     # can override app build directory from environment.
