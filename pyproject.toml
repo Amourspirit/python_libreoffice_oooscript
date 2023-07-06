@@ -53,6 +53,7 @@ Sphinx = "^7.0.1"
 sphinx-toolbox = "^3.4.0"
 sphinxcontrib-spelling = "^8.0.0"
 sphinx-rtd-dark-mode = "^1.2.4"
+sphinx-autodoc-typehints = "^1.23.3"
 
 [build-system]
 requires = ["poetry-core"]

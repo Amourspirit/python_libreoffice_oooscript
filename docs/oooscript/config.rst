@@ -192,20 +192,20 @@ Optional. Type: list of string
 
 List of modules to exclude from project, as regex expressions.
 
-When using some projects such as |odev|_ (ODEV) the package may support working both as a macro and
+When using some projects such as |odev|_ (OooDev) the package may support working both as a macro and
 stand alone modes. In such cases there may be dependencies that are needed for standard alone mode
 that are not required for macro mode.
 
-For instance ODEV uses ``sphinx``, ``lxml`` and ``PIL`` packages for various purposes but these
-packages not available in macro mode by default. Also these package are not need to run ODEV in macro mode.
+For instance OooDev uses ``sphinx`` and ``lxml`` packages for various purposes but these
+packages not available in macro mode by default. Also these package are not need to run OooDev in macro mode.
 
-To exclude these package when using ODEV:
+To exclude these package when using OooDev:
 
 .. code-block:: json
 
     {
       "args": {
-        "exclude_modules": ["sphinx\\.*", "lxml\\.*", "PIL\\.*"]
+        "exclude_modules": ["sphinx\\.*", "lxml\\.*"]
       }
     }
 
