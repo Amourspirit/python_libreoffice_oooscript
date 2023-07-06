@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oooscript"
-version = "1.0.0"
+version = "1.1.0"
 description = "Compiles several python scripts into a single script that can be eaisly used by LibreOffice as a macro."
 authors = [":Barry-Thomas-Paul: Moss <vibrationoflife@protonmail.com>"]
 homepage = "https://github.com/Amourspirit/python_libreoffice_oooscript"
@@ -33,14 +33,14 @@ packages = [
 oooscript = 'oooscript.cli.main:main'
 
 [tool.poetry.dependencies]
-python = "^3.7"
-python-dotenv = "^0.21.0"
+python = "^3.8"
+python-dotenv = "^0.21.1"
 pydantic = "^1.10.2"
 scriptmerge = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.8.0"
-typing-extensions = "^4.3.0"
+black = "^22.12.0"
+typing-extensions = "^4.7.1"
 ooo-dev-tools = "^0.4.21"
 
 [tool.poetry.group.test.dependencies]
@@ -49,10 +49,17 @@ tox-poetry = "^0.4.1"
 
 
 [tool.poetry.group.docs.dependencies]
-sphinx-toolbox = "^3.2.0"
-sphinxcontrib-spelling = "^7.6.0"
+Sphinx = "^7.0.1"
+sphinx-toolbox = "^3.4.0"
+sphinxcontrib-spelling = "^8.0.0"
 sphinx-rtd-dark-mode = "^1.2.4"
+sphinx-autodoc-typehints = "^1.23.3"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
