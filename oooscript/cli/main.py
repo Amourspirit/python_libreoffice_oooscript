@@ -54,7 +54,7 @@ def _args_cmd_compile(parser: argparse.ArgumentParser) -> None:
         "--build-dir",
         default=None,
         dest="build_dir",
-        help="Optional, build directory to place compiled script. Can be relative or absolute path. Will override the build directory set by environment and config.json.",
+        help="Optional, build directory to place compiled script. Can be relative or absolute path. Will override the build directory set by environment and .env file.",
     )
 
 

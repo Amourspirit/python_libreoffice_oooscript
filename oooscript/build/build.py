@@ -138,7 +138,7 @@ class Builder:
             # base is not currently supported
             return None
 
-    def _embed_script(self) -> None:
+    def _embed_script(self, build_dir: Path) -> None:
         if self._embed_doc is None:
             # src_doc = self._config.app_res_blank_odt
             src_doc = self._get_blank_embed_doc()
@@ -147,9 +147,7 @@ class Builder:
         else:
             src_doc = paths.get_path(self._embed_doc)
         cp = CopyResource(src=src_doc, dst=None, clear_prev=False, src_is_res=self._embed_doc is None)
-        emb = EmbedScriptPy(
-            src=self._dest_file, doc_path=cp.src_path, model=self._model, build_dir=self._builder_args.build_dir
-        )
+        emb = EmbedScriptPy(src=self._dest_file, doc_path=cp.src_path, model=self._model, build_dir=build_dir)
         emb.embed()
 
     # region Public Methods
@@ -213,7 +211,7 @@ class Builder:
         if self._model.args.single_script is False:
             self._append_g_exported()
         if self._embed:
-            self._embed_script()
+            self._embed_script(build_dir=dist_dir)
         return True
 
     # endregion Public Methods
