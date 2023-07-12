@@ -44,9 +44,11 @@
         "**/dist": true
     },
     "cSpell.words": [
+        "mkdirp",
         "msgbox",
         "oooscript",
         "pydantic",
-        "suduko"
+        "suduko",
+        "zipdir"
     ]
 }

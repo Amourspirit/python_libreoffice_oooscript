@@ -94,3 +94,5 @@ def test_builder_build_dir(fix_my_first_macro_path, tmp_path: Path, clear_build_
     assert builder.build()
     out_file = build_path / "my_first_macro.py"
     assert out_file.exists()
+    out_doc = build_path / "my_first_macro.odt"
+    assert out_doc.exists()
