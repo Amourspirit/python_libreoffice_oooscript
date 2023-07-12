@@ -147,7 +147,9 @@ class Builder:
         else:
             src_doc = paths.get_path(self._embed_doc)
         cp = CopyResource(src=src_doc, dst=None, clear_prev=False, src_is_res=self._embed_doc is None)
-        emb = EmbedScriptPy(src=self._dest_file, doc_path=cp.src_path, model=self._model)
+        emb = EmbedScriptPy(
+            src=self._dest_file, doc_path=cp.src_path, model=self._model, build_dir=self._builder_args.build_dir
+        )
         emb.embed()
 
     # region Public Methods
