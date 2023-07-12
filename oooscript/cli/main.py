@@ -7,9 +7,11 @@ import argparse
 from oooscript.build.build import Builder
 from oooscript.build.build import BuilderArgs
 from oooscript import __version__
+
 # endregion imports
 
 # region Parser
+
 
 # region    parser setup
 def _create_parser(name: str) -> argparse.ArgumentParser:
@@ -39,13 +41,31 @@ def _args_cmd_compile(parser: argparse.ArgumentParser) -> None:
         default=False,
         help="Determines if script is embedded in a LibreOffice Document",
     )
-    parser.add_argument("-d", "--embed-doc", type=str, default=None, help="Opional, LibreOffice document to embed script into.")
+    parser.add_argument(
+        "-d",
+        "--embed-doc",
+        type=str,
+        default=None,
+        dest="embed_doc",
+        help="Optional, LibreOffice document to embed script into.",
+    )
+    parser.add_argument(
+        "-b",
+        "--build-dir",
+        default=None,
+        dest="build_dir",
+        help="Optional, build directory to place compiled script. Can be relative or absolute path. Will override the build directory set by environment and config.json.",
+    )
+
 
 # endregion  parser setup
 
+
 # region        process arg command
 def _args_action_compile(a_parser: argparse.ArgumentParser, args: argparse.Namespace) -> None:
-    args = BuilderArgs(config_json=args.config, embed_in_doc=args.embed, embed_doc=args.embed_doc)
+    args = BuilderArgs(
+        config_json=args.config, embed_in_doc=args.embed, embed_doc=args.embed_doc, build_dir=args.build_dir
+    )
     builder = Builder(args)
     builder.build()
 
@@ -69,6 +89,7 @@ def _args_process_cmd(a_parser: argparse.ArgumentParser, args: argparse.Namespac
 # endregion     process arg command
 
 # endregion Parser
+
 
 # region Main
 def main():
