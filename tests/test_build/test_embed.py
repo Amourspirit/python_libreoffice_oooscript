@@ -16,9 +16,9 @@ def test_embed(root_path, fix_my_first_macro_path, clear_build_script) -> None:
     doc_path = Path(__res_path_docs__, "blank.odt")
 
     with open(macro_config, "r") as file:
-        jdata: dict = json.load(file)
+        j_data: dict = json.load(file)
 
-    model = ModelScriptCfg(**jdata)
+    model = ModelScriptCfg(**j_data)
     src = Path(fix_my_first_macro_path("script.py"))
     eb = EmbedScriptPy(src=src, doc_path=doc_path, model=model)
     eb.embed()
