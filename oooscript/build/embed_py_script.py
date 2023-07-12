@@ -1,14 +1,14 @@
 # coding: utf-8
 """
-Manages embeding a script into a LibreOffice Document
+Manages embedding a script into a LibreOffice Document
 
-Copies new docment into predefined build directory.
+Copies new document into predefined build directory.
 """
 from __future__ import annotations
 import os
 import zipfile
 import shutil
-from typing import List
+from typing import List, Union
 from pathlib import Path
 from .tmp_dir import tmpdir
 from .copy_resource import CopyResource
@@ -20,7 +20,13 @@ from . import build_util
 
 
 class EmbedScriptPy:
-    def __init__(self, src: str | Path | List[str], doc_path: str | Path | List[str], model: Model) -> None:
+    def __init__(
+        self,
+        src: str | Path | List[str],
+        doc_path: str | Path | List[str],
+        model: Model,
+        build_dir: Union[str, Path, None] = None,
+    ) -> None:
         """
         Constructor
 
@@ -33,11 +39,13 @@ class EmbedScriptPy:
         self._doc_path = paths.get_path(doc_path, ensure_absolute=True)
         self._model = model
         self._config = config.get_app_cfg()
+        self._build_dir = build_dir
 
     def embed(self) -> None:
         """
         Embeds python script in a LibreOffice Document and places doc in build dir.
         """
+
         # LO documents are zip file so this method unzip, adds script, updated manifest, rezips
         # and copies into build dir.
         def unzip(source: Path, dest: Path) -> None:
@@ -62,16 +70,15 @@ class EmbedScriptPy:
 
         def zip_dir(unzipped_path: Path, dst_zip: Path) -> None:
             # https://ask.libreoffice.org/t/libreoffice-6-0-unzip-zip-open-document-file/40028
-            # mimefile must be first file in zip.
+            # mime file must be first file in zip.
             files = [p for p in unzipped_path.iterdir() if p.is_file()]
             subdirs = [p for p in unzipped_path.iterdir() if p.is_dir()]
-            with zipfile.ZipFile(dst_zip, "w", zipfile.ZIP_DEFLATED) as zipf:
+            with zipfile.ZipFile(dst_zip, "w", zipfile.ZIP_DEFLATED) as zip_f:
                 for file in files:
-
-                    pfile = file
-                    zipf.write(pfile, pfile.relative_to(unzipped_path))
+                    p_file = file
+                    zip_f.write(p_file, p_file.relative_to(unzipped_path))
                 for d in subdirs:
-                    zipdir(unzipped_path=d, ziph=zipf)
+                    zipdir(unzipped_path=d, ziph=zip_f)
 
         def get_odt_dest_path(tmp_dir: Path) -> Path:
             # path in tmpdir to zib version of LO document.
@@ -86,7 +93,10 @@ class EmbedScriptPy:
             shutil.copy2(script_src, dst)
 
         def copy_zipped_to_build(zip_file: Path) -> None:
-            build_path = build_util.get_build_path()
+            if self._build_dir is None:
+                build_path = build_util.get_build_path()
+            else:
+                build_path = self._build_dir
             paths.mkdirp(build_path)
             build_dest = Path(build_path, f"{self._model.args.output_name}{self._doc_path.suffix}")
             shutil.copy2(zip_file, build_dest)
@@ -108,7 +118,7 @@ class EmbedScriptPy:
             zip_extract_dst = Path(p_tmp, zip_path.stem)
             unzip(source=zip_path, dest=zip_extract_dst)
 
-            # update manifest in unziped dir
+            # update manifest in unzipped dir
             manifest_path = zip_extract_dst / "META-INF" / "manifest.xml"
             mfs = ManifestScript(manifest_path=manifest_path, script_name=self._src.name)
             mfs.write(verify=True)
@@ -119,7 +129,7 @@ class EmbedScriptPy:
 
             copy_script_to_unzipped(script_src=self._src, zip_extract_dst=zip_extract_dst)
 
-            # zip unzipped dir with the new embeded script files
+            # zip unzipped dir with the new embedded script files
             zip_dest = cp.dst_path.parent / f"{self._model.args.output_name}.zip"
             # zip_dir(unzipped_path=zip_extract_dst, dst_zip=cp.dst_path)
             zip_dir(unzipped_path=zip_extract_dst, dst_zip=zip_dest)
