@@ -42,5 +42,11 @@
         "**/__pycache__": true,
         "**/.tox": true,
         "**/dist": true
-    }
+    },
+    "cSpell.words": [
+        "msgbox",
+        "oooscript",
+        "pydantic",
+        "suduko"
+    ]
 }
