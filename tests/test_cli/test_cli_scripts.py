@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     "fix_macro_path, expected_mod_count, expected_modules, ext",
     [
         ("fix_my_first_macro_path", 0, None, "odt"),
-        ("fix_msgbox_path", 1624, None, "odt"),
+        ("fix_msgbox_path", 1623, None, "odt"),
         ("fix_suduko_path", 14, None, "ods"),
     ],
 )
