@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oooscript"
-version = "1.1.3"
+version = "1.1.4"
 description = "Compiles several python scripts into a single script that can be eaisly used by LibreOffice as a macro."
 authors = [":Barry-Thomas-Paul: Moss <vibrationoflife@protonmail.com>"]
 homepage = "https://github.com/Amourspirit/python_libreoffice_oooscript"
@@ -35,12 +35,12 @@ oooscript = 'oooscript.cli.main:main'
 python = "^3.8"
 python-dotenv = "^0.21.1"
 pydantic = "^1.10.2"
-scriptmerge = "^1.0.0"
+scriptmerge = ">=1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
 typing-extensions = "^4.7.1"
-ooo-dev-tools = "^0.4.21"
+ooo-dev-tools = "==0.30.3"
 
 [tool.poetry.group.test.dependencies]
 pytest = "7.1.3"

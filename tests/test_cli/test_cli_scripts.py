@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     "fix_macro_path, expected_mod_count, expected_modules, ext",
     [
         ("fix_my_first_macro_path", 0, None, "odt"),
-        ("fix_msgbox_path", 99, None, "odt"),
+        ("fix_msgbox_path", 1624, None, "odt"),
         ("fix_suduko_path", 14, None, "ods"),
     ],
 )
@@ -44,12 +44,20 @@ def test_writes_py(
     assert zip_extract_dst.exists()
     manifest_file = zip_extract_dst / "META-INF" / "manifest.xml"
     assert manifest_file.exists()
-    ms = ManifestScript(manifest_path=manifest_file, script_name=f"{model.args.output_name}.py")
+    ms = ManifestScript(
+        manifest_path=manifest_file, script_name=f"{model.args.output_name}.py"
+    )
     assert ms.verify(ms.read())
 
-    script_path = zip_extract_dst / "Scripts" / "python" / f"{model.args.output_name}.py"
+    script_path = (
+        zip_extract_dst / "Scripts" / "python" / f"{model.args.output_name}.py"
+    )
     assert script_path.exists()
-    chk_script(script_path=script_path, expected_mod_count=expected_mod_count, expected_modules=expected_modules)
+    chk_script(
+        script_path=script_path,
+        expected_mod_count=expected_mod_count,
+        expected_modules=expected_modules,
+    )
 
 
 @pytest.mark.parametrize(
@@ -79,7 +87,15 @@ def test_writes_py_custom_build_dir(
 
     macro_config = fix_my_first_macro_path("config.json")
     model = cast("ModelScriptCfg", get_config_model(macro_config))
-    run_cli_cmd("compile", "--embed", "--config", str(macro_config), "--build-dir", str(build_path), out_path=None)
+    run_cli_cmd(
+        "compile",
+        "--embed",
+        "--config",
+        str(macro_config),
+        "--build-dir",
+        str(build_path),
+        out_path=None,
+    )
     out_file = build_path / f"{model.args.output_name}.py"
 
     assert out_file.exists()

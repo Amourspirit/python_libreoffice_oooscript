@@ -1,6 +1,5 @@
 # coding: utf-8
 import pytest
-from pathlib import Path
 from oooscript.build.build import Builder
 from oooscript.build.build import BuilderArgs
 

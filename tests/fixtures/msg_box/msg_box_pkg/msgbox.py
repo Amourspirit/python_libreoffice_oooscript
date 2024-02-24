@@ -1,13 +1,17 @@
 # coding: utf-8
 from __future__ import annotations
 from typing import cast
-from ooodev.utils.lo import Lo
+from ooodev.loader import Lo
 
 from com.sun.star.awt import XToolkit2
 from com.sun.star.awt import XMessageBox
 
-from ooo.dyn.awt.message_box_results import MessageBoxResultsEnum as MessageBoxResultsEnum
-from ooo.dyn.awt.message_box_buttons import MessageBoxButtonsEnum as MessageBoxButtonsEnum
+from ooo.dyn.awt.message_box_results import (
+    MessageBoxResultsEnum as MessageBoxResultsEnum,
+)
+from ooo.dyn.awt.message_box_buttons import (
+    MessageBoxButtonsEnum as MessageBoxButtonsEnum,
+)
 from ooo.dyn.awt.message_box_type import MessageBoxType as MessageBoxType
 
 
@@ -45,9 +49,11 @@ def msgbox(
     Lo.load_office()
     tk = Lo.create_instance_mcf(XToolkit2, "com.sun.star.awt.Toolkit")
     parent = tk.getDesktopWindow()
-    box = cast(XMessageBox, tk.createMessageBox(parent, boxtype, int(_buttons), str(title), str(message)))
+    box = cast(
+        XMessageBox,
+        tk.createMessageBox(parent, boxtype, int(_buttons), str(title), str(message)),
+    )
     return MessageBoxResultsEnum(int(box.execute()))
 
 
 __all__ = ["msgbox"]
-
