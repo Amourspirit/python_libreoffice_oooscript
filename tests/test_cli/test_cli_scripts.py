@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     "fix_macro_path, expected_mod_count, expected_modules, ext",
     [
         ("fix_my_first_macro_path", 0, None, "odt"),
-        ("fix_msgbox_path", 1623, None, "odt"),
+        ("fix_msgbox_path", -1, None, "odt"),
         ("fix_suduko_path", 14, None, "ods"),
     ],
 )
@@ -26,6 +26,9 @@ def test_writes_py(
     chk_script,
     request,
 ) -> None:
+    # fix_msgbox_path varies in the number of modules it writes depending on OS and Python version.
+    # Also there over 1600 modules in the script.
+    # For this reason, we don't check the number of modules it writes.
     from oooscript.res.docs import __res_path_docs__
     from oooscript.build.manifest_script import ManifestScript
 
