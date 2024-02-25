@@ -54,7 +54,7 @@ sphinx = "^6.2.1"
 sphinx-autodoc-typehints = "1.23.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
