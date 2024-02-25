@@ -44,7 +44,6 @@ ooo-dev-tools = "==0.30.3"
 
 [tool.poetry.group.test.dependencies]
 pytest = "7.1.3"
-tox-poetry = "^0.4.1"
 
 
 [tool.poetry.group.docs.dependencies]
