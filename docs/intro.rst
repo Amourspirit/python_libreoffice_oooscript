@@ -18,6 +18,8 @@ Sometimes you may need to use other dependencies in you project such as ooouno_ 
 The nice thing is |app_name_bold| only include that actual imports used from a dependency
 and not necessarily the entire dependency.
 
+See also `Guide on embedding python macros in a LibreOffice Document <https://python-ooo-dev-tools.readthedocs.io/en/latest/guide/embed_python.html>`__.
+
 .. _ooouno: https://pypi.org/project/ooouno/
 .. _ooo-dev-tools: https://pypi.org/project/ooo-dev-tools/
 .. _zen: https://peps.python.org/pep-0020/
