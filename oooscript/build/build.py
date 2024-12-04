@@ -2,11 +2,13 @@
 from __future__ import annotations
 import json
 from pathlib import Path
-import scriptmerge
 import os
+import sys
 from dataclasses import dataclass
 from typing import List, Optional, Union
-from distutils.sysconfig import get_python_lib
+import scriptmerge
+
+# from distutils.sysconfig import get_python_lib
 from .embed_py_script import EmbedScriptPy
 from .copy_resource import CopyResource
 from ..utils import paths
@@ -73,6 +75,37 @@ class Builder:
         self._res_path = paths.get_pkg_res_path()
 
     # endregion Constructor
+
+    def _get_virtual_env_path(self) -> str:
+        """
+        Gets the Virtual Environment Path such as `'/tmp/ds/.venv'`
+
+        Returns:
+            str: Virtual Environment Path
+        """
+        s_path = os.environ.get("VIRTUAL_ENV", None)
+        if s_path is not None:
+            return s_path
+        raise FileNotFoundError("Unable to get Virtual Environment Path")
+
+    def _get_virtual_site_pkg_dir(self) -> str:
+        """
+        Gets the Virtual Site Package Directory such as `'/tmp/ds/.venv/lib/python3.8/site-packages'`
+
+        Returns:
+            str: Virtual Site Package Directory
+        """
+        env_path = Path(self._get_virtual_env_path())
+        major, minor, *_ = sys.version_info
+        site_packages_path = (
+            env_path / "lib" / f"python{major}.{minor}" / "site-packages"
+        )
+        if not site_packages_path.exists():
+            # windows
+            site_packages_path = env_path / "Lib" / "site-packages"
+        if not site_packages_path.exists():
+            raise FileNotFoundError("Unable to get Site Packages Path")
+        return str(site_packages_path)
 
     def _get_src_file(self) -> Path:
         parts = self._model.args.src_file.replace("\\", "/").split("/")
@@ -146,8 +179,15 @@ class Builder:
                 return None
         else:
             src_doc = paths.get_path(self._embed_doc)
-        cp = CopyResource(src=src_doc, dst=None, clear_prev=False, src_is_res=self._embed_doc is None)
-        emb = EmbedScriptPy(src=self._dest_file, doc_path=cp.src_path, model=self._model, build_dir=build_dir)
+        cp = CopyResource(
+            src=src_doc, dst=None, clear_prev=False, src_is_res=self._embed_doc is None
+        )
+        emb = EmbedScriptPy(
+            src=self._dest_file,
+            doc_path=cp.src_path,
+            model=self._model,
+            build_dir=build_dir,
+        )
         emb.embed()
 
     # region Public Methods
@@ -157,7 +197,9 @@ class Builder:
         @return: `True` of the build is a success; Otherwise, `False`
         """
         if self._builder_args.build_dir is not None:
-            dist_dir = paths.get_path(self._builder_args.build_dir, ensure_absolute=True)
+            dist_dir = paths.get_path(
+                self._builder_args.build_dir, ensure_absolute=True
+            )
         else:
             dist_dir = paths.get_path(self._config.app_build_dir, ensure_absolute=True)
         dest_file = dist_dir / f"{self._model.args.output_name}{self._src_file.suffix}"
@@ -188,9 +230,13 @@ class Builder:
         if self._model.args.single_script:
             with open(self._src_file, "r") as s_file:
                 output = s_file.read()
+            with open(self._dest_file, "w") as output_file:
+                output_file.write(output)
         else:
             # get exclude modules, don't worry about duplicates, scriptmerge handles it.
-            exclude_modules = self._model.args.exclude_modules + self._config.build_exclude_modules
+            exclude_modules = (
+                self._model.args.exclude_modules + self._config.build_exclude_modules
+            )
             output = scriptmerge.script(
                 path=str(self._src_file),
                 add_python_modules=[],
@@ -198,14 +244,18 @@ class Builder:
                 exclude_python_modules=exclude_modules,
                 clean=self._model.args.clean,
             )
-        with open(self._dest_file, "w") as output_file:
-            output_file.write(output)
+            if isinstance(output, bytes):
+                with open(self._dest_file, "wb") as output_file:
+                    output_file.write(output)
+            else:
+                with open(self._dest_file, "w") as output_file:
+                    output_file.write(output)
         # endregion Make file using scriptmerge
         # region Append Global Exports
 
         # endregion Append Global Exports
         # region Report
-        if self.allow_print == True and os.path.exists(self._dest_file):
+        if self.allow_print and os.path.exists(self._dest_file):
             print("Generated File: " + self._dest_file)
         # endregion Report
         if self._model.args.single_script is False:
@@ -219,7 +269,7 @@ class Builder:
     @property
     def site_pkg_dir(self):
         if self._site_pkg_dir is None:
-            self._site_pkg_dir = get_python_lib()
+            self._site_pkg_dir = self._get_virtual_site_pkg_dir()  # get_python_lib()
         return self._site_pkg_dir
 
     @property
