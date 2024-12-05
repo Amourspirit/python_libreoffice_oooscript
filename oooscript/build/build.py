@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from typing import List, Optional, Union
 import scriptmerge
 
-# from distutils.sysconfig import get_python_lib
 from .embed_py_script import EmbedScriptPy
 from .copy_resource import CopyResource
 from ..utils import paths
@@ -269,7 +268,7 @@ class Builder:
     @property
     def site_pkg_dir(self):
         if self._site_pkg_dir is None:
-            self._site_pkg_dir = self._get_virtual_site_pkg_dir()  # get_python_lib()
+            self._site_pkg_dir = self._get_virtual_site_pkg_dir()
         return self._site_pkg_dir
 
     @property

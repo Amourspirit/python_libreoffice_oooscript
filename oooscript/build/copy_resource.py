@@ -20,7 +20,7 @@ class CopyResource:
         dst: str | Path | List[str] | None,
         dst_is_file: bool = False,
         clear_prev: bool = True,
-        src_is_res: bool = True
+        src_is_res: bool = True,
     ) -> None:
         """
         Constructor
@@ -53,7 +53,9 @@ class CopyResource:
         else:
             self._src = paths.get_path(_src, ensure_absolute=True)
         if not self._src.exists():
-            raise FileNotFoundError(f"{self.__class__.__name__} unable to find resource path: '{self._src}'")
+            raise FileNotFoundError(
+                f"{self.__class__.__name__} unable to find resource path: '{self._src}'"
+            )
         if _dst is None:
             self._dst = None
         else:
@@ -74,7 +76,7 @@ class CopyResource:
             self._copy_file()
 
     def _copy_dir(self) -> None:
-        if self._clear_previous == True and self._dst.exists():
+        if self._clear_previous and self._dst.exists():
             shutil.rmtree(self._dst)
         paths.mkdirp(self._dst)
         shutil.copytree(str(self._src), str(self._dst))
@@ -86,7 +88,7 @@ class CopyResource:
         shutil.copy2(self._src, self._dst)
 
     def _remove_files_in_dir(self, src_dir: Path) -> None:
-        if self._clear_previous == False:
+        if not self._clear_previous:
             return None
         if src_dir.exists() is False:
             return None

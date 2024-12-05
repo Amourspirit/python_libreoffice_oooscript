@@ -18,7 +18,7 @@ def get_uno_path() -> Path:
     Searches known paths for path that contains uno.py
 
     This path is different for windows and linux.
-    Typically for Windows ``C:\Program Files\LibreOffice\program``
+    Typically for Windows ``C:\\Program Files\\LibreOffice\\program``
     Typically for Linux ``/usr/lib/python3/dist-packages``
 
     Raises:
@@ -52,7 +52,7 @@ def get_lo_path() -> Path:
     Searches known paths for path that contains LibreOffice ``soffice``.
 
     This path is different for windows and linux.
-    Typically for Windows ``C:\Program Files\LibreOffice\program``
+    Typically for Windows ``C:\\Program Files\\LibreOffice\\program``
     Typically for Linux `/usr/bin/soffice``
 
     Raises:
@@ -97,10 +97,10 @@ def get_lo_python_ex() -> str:
 
     In Linux this is the current python executable.
     If a virtual environment is activated then that will be the
-    python exceutable that is returned.
+    # python executable that is returned.
 
     In Windows this is the python.exe file in LibreOffice.
-    Typically for Windows ``C:\Program Files\LibreOffice\program\python.exe``
+    Typically for Windows ``C:\\Program Files\\LibreOffice\\program\\python.exe``
 
     Raises:
         FileNotFoundError: In Windows if python.exe is not found.
@@ -142,7 +142,9 @@ def get_root() -> str:
             root = str(Path(root).parent)  # drop .env
 
         if root == "":
-            raise Exception("Unable to find Project root dir. Make sure .env file exists.")
+            raise Exception(
+                "Unable to find Project root dir. Make sure .env file exists."
+            )
         _APP_ROOT = root
     return _APP_ROOT
 
@@ -154,7 +156,7 @@ def set_os_root_path() -> None:
     global _OS_PATH_SET
     if _OS_PATH_SET is False:
         _app_root = get_root()
-        if not _app_root in sys.path:
+        if _app_root not in sys.path:
             sys.path.insert(0, _app_root)
     _OS_PATH_SET = True
 
@@ -241,18 +243,15 @@ def get_pkg_root() -> Path:
 
 
 @overload
-def get_path(path: str, ensure_absolute: bool = False) -> Path:
-    ...
+def get_path(path: str, ensure_absolute: bool = False) -> Path: ...
 
 
 @overload
-def get_path(path: List[str], ensure_absolute: bool = False) -> Path:
-    ...
+def get_path(path: List[str], ensure_absolute: bool = False) -> Path: ...
 
 
 @overload
-def get_path(path: Path, ensure_absolute: bool = False) -> Path:
-    ...
+def get_path(path: Path, ensure_absolute: bool = False) -> Path: ...
 
 
 def get_path(path: Union[str, Path, List[str]], ensure_absolute: bool = False) -> Path:
@@ -300,18 +299,16 @@ def get_path(path: Union[str, Path, List[str]], ensure_absolute: bool = False) -
 
 
 @overload
-def mkdirp(dest_dir: str) -> None:
-    ...
+def mkdirp(dest_dir: str) -> None: ...
 
 
 @overload
-def mkdirp(dest_dir: Path) -> None:
-    ...
+def mkdirp(dest_dir: Path) -> None: ...
 
 
 def mkdirp(dest_dir: Union[str, Path]) -> None:
     """
-    Creates path and subpaths not existing.
+    Creates path and sub-paths not existing.
 
     Args:
         dest_dir (Union[str, Path]): PathLike object
@@ -350,6 +347,7 @@ def get_site_packeges_dir() -> Union[Path, None]:
     if p_site.exists() and p_site.is_dir():
         return p_site
     return None
+
 
 def get_pkg_res_path() -> Path:
     """

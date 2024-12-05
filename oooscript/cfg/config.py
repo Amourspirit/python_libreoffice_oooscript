@@ -4,8 +4,8 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import Any, Dict, List
 from dotenv import dotenv_values
-from ..res import __res_path__
-from ..utils import paths
+from ..res import __res_path__  # noqa: F401
+from ..utils import paths  # noqa: F401
 
 
 _APP_CFG = None
@@ -44,7 +44,12 @@ def _get_default_config() -> Dict[str, Any]:
         "lo_script_dir": "~/.config/libreoffice/4/user",
         "app_build_dir": "build_script",
         "xml_manifest_namespace": "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0",
-        "build_exclude_modules": ["uno\\.*", "unohelper\\.*", "scriptforge\\.*", "access2base\\.*"],
+        "build_exclude_modules": [
+            "uno\\.*",
+            "unohelper\\.*",
+            "scriptforge\\.*",
+            "access2base\\.*",
+        ],
         "build_include_paths": ["."],
     }
     return config

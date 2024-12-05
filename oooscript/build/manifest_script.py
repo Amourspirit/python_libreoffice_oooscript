@@ -1,7 +1,8 @@
 # coding: utf-8
 """
-Manages write script elments into manifest xml
+Manages write script elements into manifest xml
 """
+
 import xml.dom.minidom
 from xml.dom.minicompat import NodeList
 from pathlib import Path
@@ -41,19 +42,34 @@ class ManifestScript:
 
         changed = False
         if not self._contains(ns, nl, f"Scripts/python/{self._script_name}", ""):
-            el_scripts_full = cast(xml.dom.minidom.Element, domtree.createElementNS(ns, "manifest:file-entry"))
-            el_scripts_full.setAttributeNS(ns, "manifest:full-path", f"Scripts/python/{self._script_name}")
+            el_scripts_full = cast(
+                xml.dom.minidom.Element,
+                domtree.createElementNS(ns, "manifest:file-entry"),
+            )
+            el_scripts_full.setAttributeNS(
+                ns, "manifest:full-path", f"Scripts/python/{self._script_name}"
+            )
             el_scripts_full.setAttributeNS(ns, "manifest:media-type", "")
             group.appendChild(el_scripts_full)
             changed = True
 
-        if not self._contains(ns, nl, f"Scripts/python/"):
-            el_scripts_python = cast(xml.dom.minidom.Element, domtree.createElementNS(ns, "manifest:file-entry"))
-            el_scripts_python.setAttributeNS(ns, "manifest:full-path", "Scripts/python/")
-            el_scripts_python.setAttributeNS(ns, "manifest:media-type", "application/binary")
+        if not self._contains(ns, nl, "Scripts/python/"):
+            el_scripts_python = cast(
+                xml.dom.minidom.Element,
+                domtree.createElementNS(ns, "manifest:file-entry"),
+            )
+            el_scripts_python.setAttributeNS(
+                ns, "manifest:full-path", "Scripts/python/"
+            )
+            el_scripts_python.setAttributeNS(
+                ns, "manifest:media-type", "application/binary"
+            )
             group.appendChild(el_scripts_python)
 
-            el_scripts = cast(xml.dom.minidom.Element, domtree.createElementNS(ns, "manifest:file-entry"))
+            el_scripts = cast(
+                xml.dom.minidom.Element,
+                domtree.createElementNS(ns, "manifest:file-entry"),
+            )
             el_scripts.setAttributeNS(ns, "manifest:full-path", "Scripts/")
             el_scripts.setAttributeNS(ns, "manifest:media-type", "application/binary")
             group.appendChild(el_scripts)
@@ -72,13 +88,31 @@ class ManifestScript:
         attribs = cast(NodeList, manifest.getElementsByTagName("manifest:file-entry"))
         if attribs is None:
             return False
-        if not self._contains_attribs(attribs=attribs, name_fp="manifest:full-path", value_fp=f"Scripts/python/{self._script_name}", name_mp="manifest:media-type", value_mp=""):
+        if not self._contains_attribs(
+            attribs=attribs,
+            name_fp="manifest:full-path",
+            value_fp=f"Scripts/python/{self._script_name}",
+            name_mp="manifest:media-type",
+            value_mp="",
+        ):
             return False
-        if not self._contains_attribs(attribs=attribs, name_fp="manifest:full-path", value_fp="Scripts/python/", name_mp="manifest:media-type", value_mp="application/binary"):
+        if not self._contains_attribs(
+            attribs=attribs,
+            name_fp="manifest:full-path",
+            value_fp="Scripts/python/",
+            name_mp="manifest:media-type",
+            value_mp="application/binary",
+        ):
             return False
-        if not self._contains_attribs(attribs=attribs, name_fp="manifest:full-path", value_fp="Scripts/", name_mp="manifest:media-type", value_mp="application/binary"):
+        if not self._contains_attribs(
+            attribs=attribs,
+            name_fp="manifest:full-path",
+            value_fp="Scripts/",
+            name_mp="manifest:media-type",
+            value_mp="application/binary",
+        ):
             return False
-        
+
         return True
 
     def _contains(
@@ -101,8 +135,15 @@ class ManifestScript:
                 break
 
         return result
-    
-    def _contains_attribs(self, attribs: NodeList, name_fp: str, value_fp:str, name_mp: str, value_mp: str) -> bool:
+
+    def _contains_attribs(
+        self,
+        attribs: NodeList,
+        name_fp: str,
+        value_fp: str,
+        name_mp: str,
+        value_mp: str,
+    ) -> bool:
         result = False
         for atr in attribs:
             el = cast(xml.dom.minidom.Element, atr)
