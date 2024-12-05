@@ -17,6 +17,7 @@ packages = [
     { include = "oooscript" }
 ]
 classifiers=[
+    # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#classifiers
     "License :: OSI Approved :: Apache Software License",
     "Environment :: Other Environment",
     "Intended Audience :: Developers",
@@ -30,7 +31,8 @@ classifiers=[
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12"
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 [project.scripts]
