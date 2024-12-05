@@ -4,6 +4,7 @@ Manages embedding a script into a LibreOffice Document
 
 Copies new document into predefined build directory.
 """
+
 from __future__ import annotations
 import os
 import zipfile
@@ -46,7 +47,7 @@ class EmbedScriptPy:
         Embeds python script in a LibreOffice Document and places doc in build dir.
         """
 
-        # LO documents are zip file so this method unzip, adds script, updated manifest, rezips
+        # LO documents are zip file so this method unzip, adds script, updated manifest, re-zips
         # and copies into build dir.
         def unzip(source: Path, dest: Path) -> None:
             with zipfile.ZipFile(str(source), "r") as zip_ref:
@@ -65,7 +66,9 @@ class EmbedScriptPy:
                 for file in files:
                     ziph.write(
                         os.path.join(root, file),
-                        os.path.relpath(os.path.join(root, file), os.path.join(unzipped_path, "..")),
+                        os.path.relpath(
+                            os.path.join(root, file), os.path.join(unzipped_path, "..")
+                        ),
                     )
 
         def zip_dir(unzipped_path: Path, dst_zip: Path) -> None:
@@ -98,7 +101,9 @@ class EmbedScriptPy:
             else:
                 build_path = self._build_dir
             paths.mkdirp(build_path)
-            build_dest = Path(build_path, f"{self._model.args.output_name}{self._doc_path.suffix}")
+            build_dest = Path(
+                build_path, f"{self._model.args.output_name}{self._doc_path.suffix}"
+            )
             shutil.copy2(zip_file, build_dest)
 
         self._validate()
@@ -120,14 +125,18 @@ class EmbedScriptPy:
 
             # update manifest in unzipped dir
             manifest_path = zip_extract_dst / "META-INF" / "manifest.xml"
-            mfs = ManifestScript(manifest_path=manifest_path, script_name=self._src.name)
+            mfs = ManifestScript(
+                manifest_path=manifest_path, script_name=self._src.name
+            )
             mfs.write(verify=True)
 
             # remove zip file in tmp dir.
             if zip_path.exists():
                 os.remove(zip_path)
 
-            copy_script_to_unzipped(script_src=self._src, zip_extract_dst=zip_extract_dst)
+            copy_script_to_unzipped(
+                script_src=self._src, zip_extract_dst=zip_extract_dst
+            )
 
             # zip unzipped dir with the new embedded script files
             zip_dest = cp.dst_path.parent / f"{self._model.args.output_name}.zip"

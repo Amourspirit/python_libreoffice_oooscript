@@ -1,6 +1,1 @@
-try:
-    from importlib import metadata
-except ImportError:  # for Python<3.8
-    import importlib_metadata as metadata
-
-__version__ = metadata.version("oooscript")
+__version__ = "1.2.1"
