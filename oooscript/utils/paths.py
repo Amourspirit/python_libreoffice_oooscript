@@ -5,7 +5,7 @@ import sys
 import shutil
 import __main__
 from pathlib import Path
-from typing import Iterator, List, Union, overload
+from typing import Iterator, List, Union, overload, Sequence
 from dotenv.main import find_dotenv
 
 _APP_ROOT = None
@@ -29,7 +29,6 @@ def get_uno_path() -> Path:
         Path: First found path.
     """
     if os.name == "nt":
-
         p_uno = Path(os.environ["PROGRAMFILES"], "LibreOffice", "program")
         if p_uno.exists() is False or p_uno.is_dir() is False:
             p_uno = Path(os.environ["PROGRAMFILES(X86)"], "LibreOffice", "program")
@@ -63,7 +62,6 @@ def get_lo_path() -> Path:
         Path: First found path.
     """
     if os.name == "nt":
-
         p_uno = Path(os.environ["PROGRAMFILES"], "LibreOffice", "program")
         if p_uno.exists() is False or p_uno.is_dir() is False:
             p_uno = Path(os.environ["PROGRAMFILES(X86)"], "LibreOffice", "program")
@@ -296,6 +294,28 @@ def get_path(path: Union[str, Path, List[str]], ensure_absolute: bool = False) -
     if ensure_absolute is True and p.is_absolute() is False:
         p = Path(get_root(), p)
     return p
+
+
+def get_paths(
+    path: Union[str, Path, Union[Sequence[str], Sequence[Path]]],
+    ensure_absolute: bool = False,
+) -> List[Path]:
+    """
+    Converts a single path or a sequence of paths to a list of Path objects.
+    Args:
+        path (Union[str, Path, Union[Sequence[str], Sequence[Path]]]): A single path or a sequence of paths to be converted.
+        ensure_absolute (bool, optional): If True, ensures that all paths are absolute. Defaults to False.
+    Returns:
+        List[Path]: A list of Path objects.
+    """
+
+    results: List[Path] = []
+    if isinstance(path, (str, Path)):
+        results.append(get_path(path, ensure_absolute))
+    else:
+        for p in path:
+            results.append(get_path(p, ensure_absolute))
+    return results
 
 
 @overload
