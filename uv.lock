@@ -558,7 +558,7 @@ wheels = [
 
 [[package]]
 name = "oooscript"
-version = "1.2.1"
+version = "2.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
@@ -579,7 +579,7 @@ dev = [
 requires-dist = [
     { name = "pydantic", specifier = ">=1.10.2,<2.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
-    { name = "scriptmerge", specifier = ">=1.1.0,<2.0.0" },
+    { name = "scriptmerge", specifier = ">=2.1.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -999,11 +999,11 @@ wheels = [
 
 [[package]]
 name = "scriptmerge"
-version = "1.1.0"
+version = "2.1.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/2b/ad/6a154c68293118fc8ea0ed41d7baeff6d282161e5684a6e44ce3fad6ee6a/scriptmerge-1.1.0.tar.gz", hash = "sha256:3c5bc476fdb0dd93563a53caf52f1be2385647c298cb8b99f83db77a6a309102", size = 10584 }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/3b/2d134585e8b293d12b6e5db0447b11a4ae0a709e94a8203e2e7ff5740386/scriptmerge-2.1.1.tar.gz", hash = "sha256:f0b60f94f2ce006888a8b2cf6de0c2a114ebf6e99a41aad15871ca4dd8f17c5c", size = 11686 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/64/b4/34a0914b1c551c1b83c0c2bb18cb88f476c050baf0bc302a4996cb40e5a1/scriptmerge-1.1.0-py3-none-any.whl", hash = "sha256:c1e08c136628d2ba3c0c3d8ed13e36d102e01da72e8c5bcfcb5ef19619cd068b", size = 10427 },
+    { url = "https://files.pythonhosted.org/packages/1e/f4/7a31389549f5e6e5623ed3de497365eb1704b4ebeddd1d82a60d3e87fa6a/scriptmerge-2.1.1-py3-none-any.whl", hash = "sha256:5a8f43cb97175867b7f1a90a1c951516a382fb5ef70dfe1c93bcdbb5c1e4bfb2", size = 15590 },
 ]
 
 [[package]]

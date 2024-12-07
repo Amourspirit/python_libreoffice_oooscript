@@ -2,15 +2,12 @@
 import pytest
 import json
 from pathlib import Path
-import shutil
 import zipfile
 
 from tests.fixtures.msg_box import __test__path__ as test_msgbox_path
 from tests.fixtures.sudoku import __test__path__ as test_sudoku_path
 from tests.fixtures.my_first_macro import __test__path__ as test_my_first_macro_path
 from tests.fixtures.xml import __test__path__ as test_xml_path
-
-BUILD_PATH = "build_script"
 
 
 @pytest.fixture(scope="session")
@@ -21,7 +18,6 @@ def res_path(root_path):
 @pytest.fixture(scope="session")
 def res_path():
     return Path(__file__).parent.parent / "oooscript" / "res"
-    # /media/data_main/Users/bigby/Projects/python/linux/oooscript/oooscript/res/docs
 
 
 @pytest.fixture(scope="session")
@@ -60,12 +56,6 @@ def fix_suduko_path(res_docs_path):
         # return Path("tests", "sudoku", fnm)
 
     return get_res
-
-
-@pytest.fixture(scope="session")
-def clear_build_script(root_path):
-    p = root_path / BUILD_PATH
-    shutil.rmtree(str(p), ignore_errors=True)
 
 
 @pytest.fixture(scope="session")

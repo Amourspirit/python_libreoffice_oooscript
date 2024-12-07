@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 import zipfile
 import shutil
-from typing import List, Union
+from typing import List, Union, Sequence
 from pathlib import Path
 from .tmp_dir import tmpdir
 from .copy_resource import CopyResource
@@ -23,7 +23,7 @@ from . import build_util
 class EmbedScriptPy:
     def __init__(
         self,
-        src: str | Path | List[str],
+        src: str | Path | Sequence[str] | Sequence[Path],
         doc_path: str | Path | List[str],
         model: Model,
         build_dir: Union[str, Path, None] = None,
@@ -32,11 +32,11 @@ class EmbedScriptPy:
         Constructor
 
         Args:
-            src (Union[str, Path, List[str]]): Source File, this is usually is a file from build dir.
+            src (Union[str, Path, List[str]]): Source Files, this is usually is files from build dir.
             doc_path (Union[str, Path, List[str]]): Path to resource LibreOffice document.
             model (ModelScriptCfg): Model for example.
         """
-        self._src = paths.get_path(src, ensure_absolute=True)
+        self._sources = paths.get_paths(src, ensure_absolute=True)
         self._doc_path = paths.get_path(doc_path, ensure_absolute=True)
         self._model = model
         self._config = config.get_app_cfg()
@@ -125,18 +125,16 @@ class EmbedScriptPy:
 
             # update manifest in unzipped dir
             manifest_path = zip_extract_dst / "META-INF" / "manifest.xml"
-            mfs = ManifestScript(
-                manifest_path=manifest_path, script_name=self._src.name
-            )
-            mfs.write(verify=True)
+            for src in self._sources:
+                mfs = ManifestScript(manifest_path=manifest_path, script_name=src.name)
+                mfs.write(verify=True)
 
             # remove zip file in tmp dir.
             if zip_path.exists():
                 os.remove(zip_path)
 
-            copy_script_to_unzipped(
-                script_src=self._src, zip_extract_dst=zip_extract_dst
-            )
+            for src in self._sources:
+                copy_script_to_unzipped(script_src=src, zip_extract_dst=zip_extract_dst)
 
             # zip unzipped dir with the new embedded script files
             zip_dest = cp.dst_path.parent / f"{self._model.args.output_name}.zip"
@@ -147,5 +145,6 @@ class EmbedScriptPy:
             # tmp dir will not del.
 
     def _validate(self) -> None:
-        if self._src.exists() is False:
-            raise FileNotFoundError(str(self._src))
+        for src in self._sources:
+            if src.exists() is False:
+                raise FileNotFoundError(str(src))

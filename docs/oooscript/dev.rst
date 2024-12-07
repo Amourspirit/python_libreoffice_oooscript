@@ -1,8 +1,13 @@
 Develop
 =======
 
-If you are interested in contributing to |app_name_bold| then you will need poetry_.
+If you are interested in contributing to |app_name_bold| then you will need uv_ from **astral**.
 
-After cloning this project simply run ``poetry install`` to set then necessary environment.
+After cloning this project simply run ``uv sync`` to set then necessary environment.
 
-.. _poetry: https://pypi.org/project/poetry/
+For more information see |install_uv|_.
+
+.. _uv: https://docs.astral.sh/uv/
+
+.. |install_uv| replace:: Installing uv
+.. _install_uv: https://docs.astral.sh/uv/getting-started/installation/
