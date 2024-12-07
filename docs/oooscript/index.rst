@@ -9,3 +9,4 @@ LibreOffice Python Script Compiler
     config
     env
     dev
+    ver_hist

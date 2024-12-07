@@ -194,12 +194,12 @@ class Builder2(BuilderBase):
             if self._model.args.single_script:
                 raise ValueError("Cannot use pyz_out with single_script")
 
-        if self._builder_args.build_dir is not None:
+        if self._builder_args.build_dir is None:
+            dist_dir = paths.get_path(self._config.app_build_dir, ensure_absolute=True)
+        else:
             dist_dir = paths.get_path(
                 self._builder_args.build_dir, ensure_absolute=True
             )
-        else:
-            dist_dir = paths.get_path(self._config.app_build_dir, ensure_absolute=True)
 
         if not os.path.exists(dist_dir):
             os.makedirs(dist_dir)
