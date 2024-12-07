@@ -128,7 +128,7 @@ class Builder2(BuilderBase):
         return result
 
     def _append_g_exported(self, file_path: str) -> None:
-        with open(file_path, "a") as file:
+        with open(file_path, "a", encoding="utf-8") as file:
             file.write(self._get_g_exported())
 
     def _get_blank_embed_doc(self) -> Path | None:
@@ -170,7 +170,9 @@ class Builder2(BuilderBase):
         emb.embed()
 
     def _get_code_prelude(self, pyz_mod_name: str) -> str:
-        with open(Path(code_res_path) / "prelude_pyz.py", "r") as file:
+        with open(
+            Path(code_res_path) / "prelude_pyz.py", "r", encoding="utf-8"
+        ) as file:
             result: str = file.read()
         return result.replace("___pyz___", pyz_mod_name)
 
@@ -221,9 +223,9 @@ class Builder2(BuilderBase):
                 print("Deleted File: " + self._dest_file)
 
         if self._model.args.single_script:
-            with open(self._src_file, "r") as s_file:
+            with open(self._src_file, "r", encoding="utf-8") as s_file:
                 output = s_file.read()
-            with open(self._dest_file, "w") as output_file:
+            with open(self._dest_file, "w", encoding="utf-8") as output_file:
                 output_file.write(output)
         else:
             # get exclude modules, don't worry about duplicates, scriptmerge handles it.
@@ -242,7 +244,7 @@ class Builder2(BuilderBase):
                 with open(self._dest_file, "wb") as output_file:
                     output_file.write(output)
             else:
-                with open(self._dest_file, "w") as output_file:
+                with open(self._dest_file, "w", encoding="utf-8") as output_file:
                     output_file.write(output)
         # endregion Make file using scriptmerge
         # region Append Global Exports

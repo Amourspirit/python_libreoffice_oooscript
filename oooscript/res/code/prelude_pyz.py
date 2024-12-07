@@ -61,7 +61,7 @@ class ImportDocPyz:
     def _convert_to_relative_imports(self, file_path: Path):
         # the __main__.py file must convert absolute imports to relative imports because is is a top level module.
         # Top level modules must use relative or absolute imports to import other modules in the same package.
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
 
         # Regular expression to match absolute imports
@@ -75,7 +75,7 @@ class ImportDocPyz:
         # Replace all absolute imports with relative imports
         new_content = import_pattern.sub(replace_import, content)
 
-        with open(file_path, "w") as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             file.write(new_content)
 
     def _extract_pyz(self, zip_pth: Path) -> Path | None:
