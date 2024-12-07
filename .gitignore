@@ -1,16 +1,3 @@
-scratch/
-tmp/
-_test/
-_test/*
-out/
-dist/
-build_script/
-*.log
-.~lock.*
-.python-version
-.env
-/app.py
-
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
@@ -155,3 +142,17 @@ dmypy.json
 cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+scratch/
+tmp/
+_test/
+_test/*
+out/
+dist/
+build_script/
+build_script2/
+*.log
+.~lock.*
+.python-version
+.env
+/app.py
