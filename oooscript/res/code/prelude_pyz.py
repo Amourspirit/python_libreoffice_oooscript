@@ -1,8 +1,6 @@
 from __future__ import annotations
 import sys
-import re
 import traceback
-import shutil
 import tempfile
 from pathlib import Path
 from contextlib import contextmanager
@@ -18,7 +16,7 @@ class ImportDocPyz:
         self.module_path = pv.dirBrowseNode.rootUrl
         self.pyz_name = pyz_name
         self.module_name = pyz_name.split(".")[0]
-        self.allow_print = False
+        self.allow_print = True
         if self.allow_print:
             print(f"pyz_name: {self.pyz_name}")
             print(f"module_name: {self.module_name}")
@@ -37,68 +35,22 @@ class ImportDocPyz:
             "com.sun.star.ucb.SimpleFileAccess"
         )
 
-    def _copy_to_temp(self, filename: str) -> Path | None:
+    def _copy_to_temp(self) -> None:
         """Copy the file to a temporary location."""
         try:
-            tmp_dir = Path(tempfile.gettempdir()) / filename.replace(".", "_")
-            tmp_dir.mkdir(exist_ok=True)
-            dst_pth = tmp_dir / filename
+            self.key_path.mkdir(exist_ok=True)
+            dst_pth = self.import_path
             if dst_pth.exists():
                 print("_copy_to_temp: dst_pth exists:", dst_pth)
                 return dst_pth
 
-            src_file = f"{self.module_path}/{filename}"
+            src_file = f"{self.module_path}/{self.pyz_name}"
             if self.allow_print:
                 print("_copy_to_temp: src_file:", src_file)
                 print("_copy_to_temp: dst_file:", dst_pth)
             self._sfa.copy(src_file, dst_pth.as_uri())
-            return dst_pth
         except Exception as e:
             print(f"_copy_to_temp() Error: {e}")
-            traceback.print_exc()
-        return None
-
-    def _convert_to_relative_imports(self, file_path: Path):
-        # the __main__.py file must convert absolute imports to relative imports because is is a top level module.
-        # Top level modules must use relative or absolute imports to import other modules in the same package.
-        with open(file_path, "r", encoding="utf-8") as file:
-            content = file.read()
-
-        # Regular expression to match absolute imports
-        import_pattern = re.compile(r"^(import|from) (\w+)", re.MULTILINE)
-
-        # Function to replace absolute imports with relative imports
-        def replace_import(match):
-            import_type, module_name = match.groups()
-            return f"{import_type} .{module_name}"
-
-        # Replace all absolute imports with relative imports
-        new_content = import_pattern.sub(replace_import, content)
-
-        with open(file_path, "w", encoding="utf-8") as file:
-            file.write(new_content)
-
-    def _extract_pyz(self, zip_pth: Path) -> Path | None:
-        """Extract the pyz file."""
-
-        try:
-            dst_pth = self.extracted_path / self.module_name
-            dst_pth.mkdir(exist_ok=True, parents=True)
-            # dst_pth = tmp_dir / self.module_name
-            main_pth = dst_pth / "__main__.py"
-            if main_pth.exists():
-                if self.allow_print:
-                    print("_extract_pyz: dst_pth exists:", dst_pth)
-                return dst_pth.parent
-
-            shutil.unpack_archive(zip_pth, dst_pth, "zip")
-            zip_pth.unlink()
-            zip_pth.parent.rmdir()
-            if main_pth.exists():
-                self._convert_to_relative_imports(main_pth)
-            return dst_pth.parent
-        except Exception as e:
-            print(f"_extract_pyz() Error: {e}")
             traceback.print_exc()
         return None
 
@@ -109,32 +61,19 @@ class ImportDocPyz:
         return key
 
     def set_pyz(self):
-        key = self._get_key()
-        extracted_pth = Path(tempfile.gettempdir()) / key
-        if extracted_pth.exists():
-            print("set_pyz() extracted_pth exists:", extracted_pth)
-            # self._add_to_sys_path(str(extracted_pth))
+        if self.key_path.exists():
+            print("set_pyz() new path exists:", self.key_path)
             return
-        zip_pth = self._copy_to_temp(self.pyz_name)
-        if zip_pth:
-            _ = self._extract_pyz(zip_pth)
-            pth = self.extracted_path
-            if pth:
-                sys_pth = str(pth)
-                if self.allow_print:
-                    print(f"set_pyz() set_pyz for: {sys_pth}")
-                # self._add_to_sys_path(sys_pth)
-            else:
-                if self.allow_print:
-                    print(f"set_pyz() Error: Could not set_pyz for: {self.pyz_name}")
-        else:
-            if self.allow_print:
-                print(f"set_pyz() Error: Could not set_pyz for: {self.pyz_name}")
+        self._copy_to_temp()
 
     @property
-    def extracted_path(self):
+    def key_path(self):
         key = self._get_key()
         return Path(tempfile.gettempdir()) / key
+
+    @property
+    def import_path(self) -> Path:
+        return self.key_path / self.pyz_name
 
 
 @contextmanager
@@ -151,9 +90,10 @@ try:
     ipd = ImportDocPyz("___pyz___.pyz")
     ipd.set_pyz()
     if ipd.allow_print:
-        print(f"extracted_path: {ipd.extracted_path}")
-    with importer_file(ipd.extracted_path):
-        from ___pyz___.__main__ import *
+        print(f"Import Path: {ipd.import_path}")
+    with importer_file(ipd.import_path):
+___code_placeholder___
+
 except Exception as e:
     print(f"Error: {e}")
     traceback.print_exc()

@@ -8,7 +8,10 @@
     "output_name": "msgbox",
     "single_script": false,
     "clean": true,
-    "exclude_modules": ["sphinx\\.*", "lxml\\.*"]
+    "exclude_modules": [
+      "sphinx\\.*",
+      "lxml\\.*"
+    ]
   },
   "methods": [
     "msg_small",

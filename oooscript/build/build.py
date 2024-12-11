@@ -151,7 +151,7 @@ class Builder:
         return result
 
     def _append_g_exported(self) -> None:
-        with open(self._dest_file, "a") as file:
+        with open(self._dest_file, "a", encoding="utf-8", newline="\n") as file:
             file.write(self._get_g_exported())
 
     def _get_blank_embed_doc(self) -> Path | None:
@@ -229,7 +229,9 @@ class Builder:
         if self._model.args.single_script:
             with open(self._src_file, "r") as s_file:
                 output = s_file.read()
-            with open(self._dest_file, "w") as output_file:
+            with open(
+                self._dest_file, "w", encoding="utf-8", newline="\n"
+            ) as output_file:
                 output_file.write(output)
         else:
             # get exclude modules, don't worry about duplicates, scriptmerge handles it.
@@ -247,7 +249,9 @@ class Builder:
                 with open(self._dest_file, "wb") as output_file:
                     output_file.write(output)
             else:
-                with open(self._dest_file, "w") as output_file:
+                with open(
+                    self._dest_file, "w", encoding="utf-8", newline="\n"
+                ) as output_file:
                     output_file.write(output)
         # endregion Make file using scriptmerge
         # region Append Global Exports

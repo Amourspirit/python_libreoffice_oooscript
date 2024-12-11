@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import annotations
-from typing import Tuple
+from typing import Any, cast, Dict
 import json
 from pathlib import Path
 import os
@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import List, Optional, Union
 import uuid
 import scriptmerge
+import scriptmerge.merge_common
 
 from .embed_py_script import EmbedScriptPy
 from .copy_resource import CopyResource
@@ -128,7 +129,7 @@ class Builder2(BuilderBase):
         return result
 
     def _append_g_exported(self, file_path: str) -> None:
-        with open(file_path, "a", encoding="utf-8") as file:
+        with open(file_path, "a", encoding="utf-8", newline="\n") as file:
             file.write(self._get_g_exported())
 
     def _get_blank_embed_doc(self) -> Path | None:
@@ -174,7 +175,9 @@ class Builder2(BuilderBase):
             Path(code_res_path) / "prelude_pyz.py", "r", encoding="utf-8"
         ) as file:
             result: str = file.read()
-        return result.replace("___pyz___", pyz_mod_name)
+        script_content = self._indent_file(self._src_file, 8)
+        result = result.replace("___pyz___", pyz_mod_name)
+        return result.replace("___code_placeholder___", script_content)
 
     def _write_prelude_file(self, dist_dir: Path, pyz_mod_name: str) -> Path:
         dest_file = dist_dir / f"{self._model.args.output_name}.py"
@@ -182,6 +185,22 @@ class Builder2(BuilderBase):
             dest_file.unlink()
         dest_file.write_text(self._get_code_prelude(pyz_mod_name=pyz_mod_name))
         return str(dest_file)
+
+    def _indent(self, string: str, spaces: int = 4) -> str:
+        indent = " " * spaces
+        return indent + string.replace("\n", "\n" + indent)
+
+    def _indent_line(self, string: str, spaces: int = 4) -> str:
+        indent = " " * spaces
+        return indent + string
+
+    def _indent_file(self, file_path: str, spaces: int = 4) -> str:
+        with open(file_path, "r", encoding="utf-8") as f:
+            contents = f.read()
+        cleaned = scriptmerge.merge_common.remove_comments_and_doc_strings(contents)
+        lines = cleaned.splitlines(keepends=True)
+        indented_lines = [self._indent_line(line, spaces) for line in lines]
+        return "".join(indented_lines)
 
     # region Public Methods
     def build(self) -> bool:
@@ -225,26 +244,38 @@ class Builder2(BuilderBase):
         if self._model.args.single_script:
             with open(self._src_file, "r", encoding="utf-8") as s_file:
                 output = s_file.read()
-            with open(self._dest_file, "w", encoding="utf-8") as output_file:
+            with open(
+                self._dest_file, "w", encoding="utf-8", newline="\n"
+            ) as output_file:
                 output_file.write(output)
         else:
             # get exclude modules, don't worry about duplicates, scriptmerge handles it.
             exclude_modules = (
                 self._model.args.exclude_modules + self._config.build_exclude_modules
             )
-            output = scriptmerge.script(
+
+            def cb(source: Any, args: scriptmerge.EventArgs) -> None:
+                # remove __main__.py content it will be written into the prelude file
+                if args.name == scriptmerge.CALLBACK_GENERATED_MAIN_PY_FILE_CONTENT:
+                    ev_args = cast(Dict[str, Any], args.event_data)
+                    ev_args["contents"] = "# empty file"
+
+            output = scriptmerge.merge_pyz.script(
                 path=str(self._src_file),
                 add_python_modules=[],
                 add_python_paths=self._get_include_paths(),
                 exclude_python_modules=exclude_modules,
                 clean=self._model.args.clean,
                 pyz_out=self._builder_args.pyz_out,
+                callback=cb,
             )
-            if self._builder_args.pyz_out:
+            if isinstance(output, bytes):
                 with open(self._dest_file, "wb") as output_file:
                     output_file.write(output)
             else:
-                with open(self._dest_file, "w", encoding="utf-8") as output_file:
+                with open(
+                    self._dest_file, "w", encoding="utf-8", newline="\n"
+                ) as output_file:
                     output_file.write(output)
         # endregion Make file using scriptmerge
         # region Append Global Exports
