@@ -59,6 +59,7 @@ path = "oooscript/__init__.py"
 [dependency-groups]
 dev = [
     "ooo-dev-tools>=0.50.0",
+    "oooenv>=0.2.4",
     "poetry-dotenv>=0.3.0",
     "pytest>=8.3.4",
     "ruff>=0.8.1",
