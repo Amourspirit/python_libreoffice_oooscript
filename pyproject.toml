@@ -9,7 +9,7 @@ keywords = ["ooouno", "libreoffice", "scriptmerge", "uno", "pyuno", "macro"]
 dependencies = [
     "pydantic>=1.10.2,<2.0.0",
     "python-dotenv>=1.0.1",
-    "scriptmerge>=2.1.1",
+    "scriptmerge>=3.1.0",
 ]
 authors = [
     {name = ":Barry-Thomas-Paul: Moss", email = "bigbytetech@gmail.com"}]
