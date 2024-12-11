@@ -81,7 +81,7 @@ class ManifestScript:
 
         if changed:
             # only write if there have been additions
-            with open(self._path, "w") as file:
+            with open(self._path, "w", encoding="utf-8", newline="\n") as file:
                 domtree.writexml(writer=file)
 
     def verify(self, manifest: xml.dom.minidom.Document) -> bool:

@@ -93,7 +93,10 @@ def test_msgbox_presentation_blank(
 
     macro_config = fix_msgbox_path("config.json")
     args = BuilderArgs(
-        config_json=macro_config, embed_in_doc=True, build_dir=str(build_directory)
+        config_json=macro_config,
+        embed_in_doc=True,
+        build_dir=str(build_directory),
+        pyz_out=True,
     )
     builder = Builder2(args)
     monkeypatch.setattr(builder._model, "app", AppTypeEnum.IMPRESS)
