@@ -16,7 +16,7 @@ class ImportDocPyz:
         self.module_path = pv.dirBrowseNode.rootUrl
         self.pyz_name = pyz_name
         self.module_name = pyz_name.split(".")[0]
-        self.allow_print = True
+        self.allow_print = False
         if self.allow_print:
             print(f"pyz_name: {self.pyz_name}")
             print(f"module_name: {self.module_name}")
